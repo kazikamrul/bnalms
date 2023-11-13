@@ -1,0 +1,138 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Fine For Issue Return List</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Fine For Issue Return List</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <!-- <button class="btn-space" mat-raised-button
+                             color="primary" routerLink="/member-management/add-activedeactivemember">Add
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button> -->
+                          </div>
+                        </li>
+                        <li>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <table class="table tbl-by-group db-li-s-in">
+                  <thead>
+                    <tr>
+                      <th class="thbm"><h5>Ser</h5></th>
+                      <th class="thbm"><h5>Member Name</h5></th>
+                      <th class="thbm"><h5>Accession No</h5></th>
+                      <th class="thbm"><h5>Category</h5></th>
+                      <th class="thbm"><h5>Title</h5></th>
+                      <th class="thbm"><h5>Issue Date</h5></th>
+                      <th class="thbm"><h5>Return Date</h5></th>
+                      <th class="cl-action"><h5></h5></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngFor="
+                        let data of this.fineForIssueReturnList;
+                        let i = index
+                      "
+                    >
+                      <tr>
+                        <td>
+                          {{
+                            (paging.pageIndex - 1) * paging.pageSize + i + 1
+                          }}
+                        </td>
+                        <td>
+                          {{ data.memberName }}({{ data.pno }})
+                        </td>
+                        <td>
+                          {{ data.accessionNo }}
+                        </td>
+                        <td>
+                          {{ data.bookCategoryName }}
+                        </td>
+                        <td>
+                          {{ data.titleBangla }}({{ data.bookTitleName }}) 
+                        </td>
+                        <td>
+                          {{ data.issueDate | date:'dd/MMM/yyyy' }}
+                        </td>
+                        <td>
+                          {{ data.returnDate | date:'dd/MMM/yyyy' }}
+                        </td>
+                        
+                        <!-- *ngIf="data.jobStatus != 1" add-fineforissuereturnmember -->
+                        <td class="cl-action">
+                          <div>
+                            <button  mat-icon-button class="accent" title="InActive"  [routerLink]="['/member-management/add-fineforissuereturnmember/', data.baseSchoolNameId,data.bookIssueAndSubmissionId]"  (click)="$event.stopPropagation()"><mat-icon> check_circle</mat-icon></button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+                
+                
+                <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  (page)="pageChanged($event)">
+                  </mat-paginator> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+   

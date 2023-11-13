@@ -1,0 +1,196 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Online Requested Book List</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;"> List</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader"> 
+                  <div class="row">
+                    <div class="col-4">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h3></h3>
+                        </li>
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- <div class="col-8">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">                        
+                            <button class="btn-space"  mat-raised-button
+                              color="warn" [routerLink]="['/admin/dashboard/school-list']"> 
+                              <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button>                          
+                          </div>
+                        </li>                      
+                      </ul>
+                      
+                    </div> -->
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <!-- <button class="btn-space"  mat-raised-button
+                            color="warn" routerLink="/admin/dashboard/memberdashboard"> 
+                            <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button> -->
+                            <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                              <mat-icon class="col-white">print</mat-icon>
+                            </button> 
+                            <button  class="btn-space"  mat-raised-button color="warn" (click)="backClicked()"> 
+                              <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button>         
+                             <!-- <button *ngIf="this.role == userRole.SuperAdmin" class="btn-space"  mat-raised-button
+                            color="warn" [routerLink]="['/admin/dashboard/main']"> 
+                            <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>    
+                          <button *ngIf="this.role == userRole.Admin" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/admin/dashboard/main']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                        </button> 
+                          <button *ngIf="this.role ==userRole.User" class="btn-space"  mat-raised-button
+                            color="warn" [routerLink]="['/admin/dashboard/user-dashboard']"> 
+                            <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>                       -->
+                          </div>
+                        </li>                        
+                      </ul>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">        
+                    
+                
+                        <div id="print-routine">
+                          <table class="table tbl-by-group db-li-s-in db-book-info">
+                            <thead>
+                              <tr>
+                                <th class="cl-mrk-rmrk-act-library"><h5>Accession No & Book Title</h5></th>
+                                <!-- <th class="cl-mrk-rmrk-act-library"><h5>Accession No</h5></th> -->
+                                <th class="cl-mrk-rmrk-act-book"><h5>Member Name & P No</h5></th>
+                                <th class="cl-mrk-rmrk-act-requestdate"><h5>Online Booking</h5></th>
+                                <th class="cl-mrk-rmrk-act-requestdate"><h5>Request Date</h5></th>
+                                <th class="cl-itemnames"><h5>Status</h5></th>  
+                                <th class="cl-mrk-rmrk-act-r"><h5>Action</h5></th> 
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <ng-container *ngFor="let data of groupArrays; let i = index" >
+                                  <tr>
+                                    <td class="no-border-online" [attr.rowspan]="data.datas.length + 1">
+                                      {{ data.bookTitleName}}
+                                    </td>
+                                  </tr>
+                                <tr *ngFor="let number of data.datas; let i = index">
+                                  <!-- <td> {{number.accessionNo}} </td> -->
+                                  <td>{{number.memberName}} (P No {{number.pno}}) </td>
+                                  <td> {{number.requestStatus}} </td>
+                                  <td>
+                                    {{number.requestDate | date:'dd/MM/yyyy'}}
+                                  </td>
+                                  <td class="cl-itemnames">
+                                    <div *ngIf="number.issueStatus === 0">
+                                      <span class="att-completed">Available</span>
+                                    </div>
+                                    <div *ngIf="number.issueStatus === 1">
+                                      <span class="att-due clickable" (click)="getUserInfoPopup(number.bookInformationId)">Issued</span>
+                                    </div>
+                                  </td>
+                                  <td class="cl-mrk-rmrk-act-r">
+                                    <div fxLayout="row" fxLayoutGap="20px">
+                                      <button *ngIf="number.issueStatus === 0" mat-icon-button color="accent" title="Issued" class="btn-tbl-delete" (click)="IssuedForMember(number)">
+                                        <mat-icon>cached</mat-icon>
+                                      </button>
+                                      <button *ngIf="role == userRole.Member" title="Cancel" mat-icon-button class="btn-tbl-edit btnview" (click)="onButtonClick(number)">
+                                        <mat-icon> cancel_presentation</mat-icon>
+                                      </button>
+                                      <button title="Book Information Details" mat-icon-button color="accent" class="btn-tbl-edit btnviewdetails"
+                                      [routerLink]="['/book-management/bookdetails',  number.bookInformationId]">
+                                      <mat-icon aria-label="Edit" class="col-white view-custom">visibility</mat-icon>
+                                    </button>
+                                
+                                    </div>
+                                  </td>
+                                </tr>
+                              </ng-container>
+                            </tbody>
+                          </table>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="overlay" *ngIf="userInfoPopup">
+    <div class="popup member-info">
+      <h2>Member Information</h2> 
+      <a class="close" (click)="userInfoPopup = false">&times;</a>
+      <div class="content">
+        <div class="responsive_table">
+          <table class="table tbl-by-group db-li-s-in db-book-info">
+            <thead>
+              <tr>
+                <th class="cl-member"><h5>PNo & Name</h5></th>
+                <th class="cl-partno"><h5>Issued Date</h5></th>
+                <th class="cl-itemname"><h5>Return Date</h5></th>              
+                <th class="cl-itemname"><h5>Contact No</h5></th>              
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let number of this.issuedUserInfo let i = index">
+                  <td class="cl-member">{{number.pno}} - {{number.memberName}}</td>
+                  <td class="ac-no">{{ number.issueDate | date:'dd/MMM/yyyy' }}</td>
+                  <td>{{ number.returnDate | date:'dd/MMM/yyyy'}}</td>
+                  <td>{{ number.mobileNoPersonal }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+   
+

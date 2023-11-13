@@ -1,0 +1,92 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Damaged By Borrower</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form class="m-4" [formGroup]="DamageBbyBorrowerForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                      <h5 class="b-t-8"> Member  <span class="c-color-member">:{{memberName}}</span> </h5>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                      <h5 class="b-t-8"> Pno  <span class="c-color-pno">:{{pno}}</span> </h5>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                      <h5 class="b-t-8">Mobile (Personal)  <span class="c-color-mobilepersonal">:{{mobileNoPersonal}}</span> </h5>
+                    </div>
+                  <!-- </div> -->
+               
+                 <!-- <div class="row"> -->
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                    <h5 class="b-t-8"> Title(English)  <span class="c-color-titlreng">:{{bookTitleEnglish}}</span> </h5>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                    <h5 class="b-t-8"> Title(Bangla)  <span class="c-color-titlebangla">:{{bookTitleBangla}}</span> </h5>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                    <h5 class="b-t-8">Price  <span class="c-color-price">:{{price}}</span> </h5>
+                  </div>
+                 </div>
+              <!-- <div></div> -->
+                  <div class="row-space">
+
+                  </div>
+                <div class="row mb-5">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Fine Ammount</mat-label>
+                      <input matInput formControlName="borrowerDamageFineAmount">
+                      <!-- <textarea matInput  formControlName="borrowerDamageRemarks"></textarea> -->
+                    </mat-form-field>
+                  </div> 
+                  
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Remarks</mat-label>
+                      <!-- <input matInput formControlName="officeDispiseNumber"> -->
+                      <textarea matInput  formControlName="borrowerDamageRemarks"></textarea>
+                    </mat-form-field>
+                  </div> 
+                </div>
+
+                  
+                </div>
+            
+            
+               
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!DamageBbyBorrowerForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <button type="button" mat-button routerLink="/book-management/bookissueandsubmission-list">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

@@ -1,0 +1,289 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Inventory</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form *ngIf="role != userRole.Member" class="m-4" [formGroup]="InventoryForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+
+                  <div *ngIf="role == userRole.SuperAdmin" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Library Name </mat-label>
+                      <mat-select formControlName="baseSchoolNameId" required >
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Inventory Type</mat-label>
+                      <mat-select formControlName="inventoryTypeId" required (selectionChange)="getInventorys()">
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of selectedInventoryTypes" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Identity No</mat-label>
+                      <input matInput formControlName="identityNo" >
+                      <mat-error *ngIf="InventoryForm.get('identityNo').hasError('required')">
+                        designation  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Source</mat-label>
+                      <input matInput formControlName="location" >
+                      <mat-error *ngIf="InventoryForm.get('location').hasError('required')">
+                        Source  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+               
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Brand</mat-label>
+                      <input matInput formControlName="brand" >
+                      <mat-error *ngIf="InventoryForm.get('brand').hasError('required')">
+                        Brand  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div> -->
+                  <div class="col-xl-4 col-lg-4 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Model</mat-label>
+                      <input matInput formControlName="model" >
+                      <mat-error *ngIf="InventoryForm.get('model').hasError('required')">
+                        Model  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-4 col-lg-4 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Quantity</mat-label>
+                      <input matInput formControlName="quantity" >
+                      <mat-error *ngIf="InventoryForm.get('quantity').hasError('required')">
+                        Quantity  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Purchase Date</mat-label>
+                        <input matInput [matDatepicker]="purchasepicker" formControlName="purchaseDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="purchasepicker"></mat-datepicker-toggle>
+                       <mat-datepicker #purchasepicker></mat-datepicker>  
+                       <mat-error *ngIf="InventoryForm.get('purchaseDate').hasError('required')">
+                        Purchase Date is Required!
+                      </mat-error>                                          
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Company Name</mat-label>
+                      <input matInput formControlName="companyName" >
+                      <mat-error *ngIf="InventoryForm.get('companyName').hasError('required')">
+                        Company Name  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Contract Number</mat-label>
+                      <input matInput formControlName="contractNumber" >
+                      <mat-error *ngIf="InventoryForm.get('contractNumber').hasError('required')">
+                        Contract Number  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Price</mat-label>
+                      <input matInput formControlName="price" >
+                      <mat-error *ngIf="InventoryForm.get('price').hasError('required')">
+                        Price  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Remarks</mat-label>
+                      <textarea matInput formControlName="remarks" ></textarea>
+                      <mat-error *ngIf="InventoryForm.get('remarks').hasError('required')">
+                        Remarks  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!InventoryForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                  </div>
+                </div>
+              </form>
+              <div class="row create-table db-tbl cls-rtn">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <h3 class="text-center table-title">Inventory List</h3>
+                  </div>
+
+                  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2-p">
+                    <button class="btn-space" mat-raised-button color="primary" (click)="availableList()">Available State</button>
+                  </div>
+
+                  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2-p">
+                    <button class="btn-space" mat-raised-button color="primary" (click)="notAvailableList()">Damage State</button>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2-p">
+                    <button class="btn-space" mat-raised-button color="accent" (click)="printSingle()">
+                      <mat-icon class="col-white">print</mat-icon>
+                    </button>
+                  </div>
+                  </div>
+                <div class="container">
+                  <div id="print-routine">
+                  <table *ngIf="tableShow" class="table tbl-by-group db-li-s-in">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk"><h5>Inventory Type</h5></th>
+                        <th class="cl-partno-ac"><h5>Identity No</h5></th>
+                        <th class="cl-bookname"><h5>Location</h5></th>
+                        <!-- <th class="cl-itemname"><h5>Brand</h5></th> -->
+                        <th class="cl-itemname"><h5>Quantity</h5></th>
+                        <th class="cl-itemname"><h5>Brand & Model</h5></th>
+                        <th class="cl-itemname-d"><h5>Purchase Date</h5></th>
+                        <th class="cl-itemname"><h5>Price</h5></th>
+                        <th class="cl-itemname-status"><h5>Status</h5></th>
+                        <th class="cl-itemname"><h5>Remarks</h5></th>
+                        <th class="cl-itemname-img"><h5></h5></th>
+                        <th class="cl-mrk-rmrk-act-i"><h5>Actions</h5></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let data of groupArrays; let i = index" >
+                        <tr>
+                          <td class="no-border" [attr.rowspan]="data.datas.length + 1">
+                            {{ data.inventoryType }}
+                          </td>
+                        </tr>
+                        <tr *ngFor="let number of data.datas">
+                          <td class="ac-no">{{ number.identityNo }}</td>
+                          <td>{{ number.location }}</td>
+                          <!-- <td>{{ number.brand }}</td> -->
+                          <td>{{ number.quantity }}</td>
+                          <td>{{ number.model }}</td>
+                          <td class="cl-itemname-d">{{ number.purchaseDate | date: 'dd MMM, yyyy' }}</td>
+                          <td>{{ number.price }}</td>
+                          <td class="cl-itemname-status" *ngIf="number.damageStatus == 0"><span class="dmg-status">Available</span></td> 
+                          <td>{{ number.remarks }}</td>
+                          <td class="cl-itemname-img">  
+                            <button *ngIf="this.role == this.userRole.Admin" title="Damage" mat-icon-button color="accent" class="btn-tbl-edit" (click)="$event.stopPropagation()"
+                            [routerLink]="['/inventory-management/inventory-update', number.inventoryId]">
+                              <img class="img-dusticon-inventory" src="/assets/images/icons/dusticon.PNG">
+                            </button>
+                          </td>
+                          <td class="cl-mrk-rmrk-act-i">
+                            <button mat-icon-button color="accent" class="btn-tbl-edit" [routerLink]="['/inventory-management/update-inventory', number.inventoryId]">
+                              <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()" (click)="deleteItem(number)">
+                              <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                            </button>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                  <table *ngIf="tableShowStatus" class="table tbl-by-group db-li-s-in">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk"><h5>Inventory Type</h5></th>
+                        <th class="cl-partno-ac"><h5>Identity No</h5></th>
+                        <th class="cl-bookname"><h5>Location</h5></th>
+                        <th class="cl-itemname"><h5>Brand</h5></th>
+                        <th class="cl-itemname"><h5>Quantity</h5></th>
+                        <th class="cl-itemname"><h5>Model</h5></th>
+                        <th class="cl-itemname"><h5>Purchase Date</h5></th>
+                        <th class="cl-itemname"><h5>Price</h5></th>
+                        <th class="cl-itemname"><h5>Damage Date</h5></th>
+                        <th class="cl-itemname"><h5>Damage Reason</h5></th>
+                        <th class="cl-itemname"><h5>Status</h5></th>
+                        <!-- <th class="cl-mrk-rmrk-act-i"><h5>Actions</h5></th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let data of groupArrays; let i = index" >
+                        <tr>
+                          <td class="no-border" [attr.rowspan]="data.datas.length + 1">
+                            {{ data.inventoryType }}
+                          </td>
+                        </tr>
+                        <tr *ngFor="let number of data.datas">
+                          <td class="ac-no">{{ number.identityNo }}</td>
+                          <td>{{ number.location }}</td>
+                          <td>{{ number.brand }}</td>
+                          <td>{{ number.quantity }}</td>
+                          <td>{{ number.model }}</td>
+                          <td>{{ number.purchaseDate | date: 'dd MMM, yyyy' }}</td>
+                          <td>{{ number.price }}</td>
+                          <td>{{ number.damageDate | date: 'dd MMM, yyyy'}}</td>
+                          <td>{{ number.damageReason}}</td>
+                          <td *ngIf="number.damageStatus == 1"><span class="dmg-status-notavail">Damage</span></td> 
+                          <td class="cl-mrk-rmrk-act-i">
+                            <!-- <button mat-icon-button color="accent" class="btn-tbl-edit" [routerLink]="['/inventory-management/inventory-update', number.inventoryId]">
+                              <mat-icon aria-label="Status" class="col-white">add_box</mat-icon>
+                            </button> -->
+                            <!-- <button mat-icon-button color="accent" class="btn-tbl-edit" [routerLink]="['/inventory-management/update-inventory', number.inventoryId]">
+                              <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()" (click)="deleteItem(number)">
+                              <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                            </button> -->
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                  </div>              
+                  <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                    [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                    (page)="pageChanged($event)">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

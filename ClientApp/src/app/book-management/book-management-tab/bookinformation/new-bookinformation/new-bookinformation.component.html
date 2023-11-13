@@ -1,0 +1,318 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Book Information</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form class="m-4" [formGroup]="BookInformationForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div *ngIf="role == userRole.SuperAdmin" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Library Name </mat-label>
+                      <mat-select formControlName="baseSchoolNameId" required >
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Book Category</mat-label>                        
+                        <mat-select formControlName="bookCategoryId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedBookCategory" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="BookInformationForm.get('bookCategoryId').hasError('required')">
+                          Category  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field  class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Accession No</mat-label>
+                      <input [ngClass]="{'open': this.isExist == true}"  matInput formControlName="accessionNo" (input)="onAccessionNoChange($event.target.value)" required>
+                      <mat-error *ngIf="BookInformationForm.get('accessionNo').hasError('required')">
+                        Accession No is required
+                      </mat-error>
+                    </mat-form-field>
+                    <span *ngIf="this.isExist" style="color: red;">Accession no Already exist</span>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Title </mat-label>                        
+                        <input formControlName="title" matInput type="text" [matAutocomplete]="auto1" />
+                        <mat-autocomplete #auto1="matAutocomplete" >
+                          <mat-option  *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onBookTitleSelectionChanged(item)">
+                            {{item.text}}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Cover Image</mat-label>
+                      <input matInput formControlName="coverImage">
+                    </mat-form-field>
+                  </div> -->
+                  
+                  
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Main Class</mat-label>                        
+                        <mat-select formControlName="mainClassId" >
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedMainClass" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Volume/Series</mat-label>
+                      <input matInput formControlName="volume">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Heading</mat-label>
+                      <input matInput formControlName="heading">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Call Number</mat-label>
+                      <input matInput formControlName="callNumber">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>ISBN No</mat-label>
+                      <input matInput formControlName="isbnNo">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Language</mat-label>                        
+                        <mat-select formControlName="languageId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedLanguages" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="BookInformationForm.get('languageId').hasError('required')">
+                          Language  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Edition/Version</mat-label>
+                      <input matInput formControlName="edition">
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Issuable</mat-label>
+                      <input matInput formControlName="issuable">
+                    </mat-form-field>
+                  </div> -->
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2 radio-field">
+                    
+                    <div class="row">
+                      <mat-label>Issuable</mat-label>
+                    </div>
+                    <div class="radio-btn row">
+                      <mat-radio-group formControlName="issuable" required>
+                        <mat-radio-button class="example-margin"  value="1" >Yes</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="0" >No</mat-radio-button>
+                        <mat-error *ngIf="BookInformationForm.get('issuable').hasError('required')">
+                          Issuable  is Required!
+                        </mat-error>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Page No</mat-label>
+                      <input matInput formControlName="pageNo">
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Illustrations</mat-label>
+                      <input matInput formControlName="illustrations">
+                    </mat-form-field>
+                  </div> -->
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2 radio-field">
+                    
+                    <div class="row">
+                      <mat-label>Illustrations</mat-label>
+                    </div>
+                    <div class="radio-btn row">
+                      <mat-radio-group formControlName="illustrations" required>
+                        <mat-radio-button class="example-margin"  value="1" >Yes</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="0" >No</mat-radio-button>
+                        <mat-error *ngIf="BookInformationForm.get('illustrations').hasError('required')">
+                          Illustrations  is Required!
+                        </mat-error>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Notes</mat-label>
+                      <input matInput formControlName="notes">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Price</mat-label>
+                      <input matInput formControlName="price" required>
+                      <mat-error *ngIf="BookInformationForm.get('price').hasError('required')">
+                        price is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Shelf Name</mat-label>                        
+                        <mat-select formControlName="shelfInfoId" required (selectionChange)="onShelfNameelectionChangeGetRowName($event.value)">
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedShelfInfo" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="BookInformationForm.get('shelfInfoId').hasError('required')">
+                          Shelf Name  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Row Name</mat-label>                        
+                        <mat-select formControlName="rowInfoId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedRowInfo" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="BookInformationForm.get('rowInfoId').hasError('required')">
+                          Row Name  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Source</mat-label>                        
+                        <mat-select formControlName="sourceId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedSource" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="BookInformationForm.get('sourceId').hasError('required')">
+                          Source  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+              
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>accessionDate Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="accessionDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                       <mat-datepicker #picker></mat-datepicker>                                         
+                    </mat-form-field>
+                  </div>
+                                    
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Useable Days</mat-label>
+                      <input matInput formControlName="useableDays">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Upload Cover Image</mat-label>
+                      <ngx-mat-file-input (change)="onFileChanged($event)" accept=".jpg,.png,.gif,">
+                      </ngx-mat-file-input>
+                      <mat-icon matSuffix>attachment</mat-icon>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Damage Status</mat-label>
+                      <mat-select formControlName="authorDamageStatus" required>
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  value="1">IsDamaged</mat-option >                        
+                      </mat-select>
+                      <mat-error *ngIf="BookInformationForm.get('authorDamageStatus').hasError('required')">
+                         Damage Status is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Reason</mat-label>
+                      <input matInput formControlName="reason" required>
+                      <mat-error *ngIf="BookInformationForm.get('reason').hasError('required')">
+                        reason is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Damage Date</mat-label>
+                        <input matInput [matDatepicker]="ddpicker" formControlName="damageDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="ddpicker"></mat-datepicker-toggle>
+                       <mat-datepicker #ddpicker></mat-datepicker>    
+                       <mat-error *ngIf="BookInformationForm.get('damageDate').hasError('required')">
+                        reason is required
+                      </mat-error>                                        
+                    </mat-form-field>
+                  </div> -->
+                </div>
+            
+            
+               
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!BookInformationForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <!-- <button type="button" mat-button routerLink="/basic-setup/add-booktitleinfo">Cancel</button> -->
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

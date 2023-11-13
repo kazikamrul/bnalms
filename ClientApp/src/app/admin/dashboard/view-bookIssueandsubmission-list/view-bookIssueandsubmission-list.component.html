@@ -1,0 +1,234 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Book Issue List</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Book Issue List</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-4">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <input placeholder="Search Accession No" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      
+                          <h3 class="text-center mt-3">Book Issued List</h3>
+                        
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                              <mat-icon class="col-white">print</mat-icon>
+                            </button>  
+                            <!-- <button *ngIf="this.role == userRole.Admin" class="btn-space"  mat-raised-button
+                              color="warn" [routerLink]="['/admin/dashboard/main']"> 
+                              <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button>   -->
+                            <button  class="btn-space"  mat-raised-button color="warn" (click)="backClicked()"> 
+                              <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button> 
+                          </div>
+                        </li>
+                        <li>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="print-routine">
+                <table class="table tbl-by-group db-li-s-in">
+                  <thead>
+                    <tr>
+                      <th class="cl-mrk"><h5>PNo & ONo</h5></th>
+                      <th class="accession-no"><h5>Accession No</h5></th>
+                      <th class="booktitle-issue"><h5>Book Title</h5></th>
+                      <th class="issue-date"><h5>Issue Date</h5></th>
+                      <th class="return-date"><h5>Return Date</h5></th>
+                      <th class="cl-mrk-rmrk"><h5>Due</h5></th>
+                      <th class="cl-action" *ngIf="this.role == userRole.User || this.role == userRole.Admin"><h5>Return</h5></th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <ng-container
+                        *ngFor="let data of groupArrays; let i = index"
+                      >
+                        <tr>
+                          <td [attr.rowspan]="data.datas.length + 1">
+                            <!-- <button class="issuebutton"><u>Issued</u> -->
+                              <!-- <button (click)="getUserInfoPopup(data.datas)" class="issuebutton"><u>{{ data.pno }}</u></button> -->
+                              <a (click)="getUserInfoPopup(data.datas)" class="underline" style="color: blue; cursor: pointer;" >{{ data.pno }} </a>
+                             
+                          </td>
+                        </tr>
+                        <tr *ngFor="let number of data.datas">
+                          <td class="accession-no">{{ number.accessionNo }}</td>
+                          <td class="booktitle-issue">{{ number.bookTitleName }} - {{number.titleBangla}}</td>
+                          <td class="issue-date">{{ number.issueDate | date: "dd/MMM/yyyy" }}</td>
+                          <td>{{ number.returnDate | date: "dd/MMM/yyyy" }}</td>
+                          <td><span *ngIf="getDueDays(number.returnDate) > 0">{{getDueDays(number.returnDate)}}</span></td>
+                          <td class="cl-action" *ngIf="this.role == userRole.User || this.role == userRole.Admin">
+                            <button mat-icon-button color="accent" title="Return" class="btn-tbl-delete" (click)="returnItem(number)">
+                              <mat-icon>cached</mat-icon>
+                            </button>
+                            <!-- <button mat-icon-button title="Damage" color="accent" class="btn-tbl-edit"
+                              [routerLink]="['/book-management/update-damagereturn', number.bookIssueAndSubmissionId]">
+                              <mat-icon aria-label="Edit" class="col-white">highlight_off</mat-icon>
+                            </button> -->
+                            <button *ngIf="role == userRole.Admin" title="Damage" mat-icon-button color="accent" class="btn-tbl-edit btnedit" (click)="$event.stopPropagation()"
+                            [routerLink]="['/book-management/update-damagereturn', number.bookIssueAndSubmissionId]">
+                               <!-- <mat-icon aria-label="Edit" class="col-white view">book_damage</mat-icon>  -->
+                              <img class="img-dusticon" src="/assets/images/icons/dusticon.PNG">
+                            </button>
+                          </td>
+                        </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="overlay" *ngIf="userInfoPopup">
+    <div class="popup member-details">
+      <h2>Member Details</h2> 
+      <a class="close" (click)="userInfoPopup = false">&times;</a>
+      <div class="content">
+        <div class="responsive_table">
+          <table class="tablepopup">
+            <thead>
+              
+            </thead>
+            <tbody>
+              <tr>
+                <th class="tbl-row" scope="row">Member Name</th>
+                <td class="tbl-row">{{memberName}}</td>
+                <th class="tbl-row" scope="row">Email</th>
+                <td class="tbl-row">{{email}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Father Name</th>
+                <td class="tbl-row">{{fatherName}}</td>
+                <th class="tbl-row" scope="row">Mother Name</th>
+                <td class="tbl-row">{{motherName}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Present Address</th>
+                <td class="tbl-row">{{presentAddress}}</td>
+                <th class="tbl-row" scope="row">Permanent Address</th>
+                <td class="tbl-row">{{permanentAddress}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">NID</th>
+                <td class="tbl-row">{{nid}}</td>
+                <th class="tbl-row" scope="row">Sex</th>
+                <td class="tbl-row">{{sex}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Issue Date</th>
+                <td class="tbl-row">{{issueDate | date:'mediumDate'}}</td>
+                <th class="tbl-row" scope="row">Expire Date</th>
+                <td class="tbl-row">{{expireDate | date:'mediumDate'}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">DOB</th>
+                <td class="tbl-row">{{dob | date:'mediumDate'}}</td>
+                <th class="tbl-row" scope="row">Pno</th>
+                <td class="tbl-row">{{pno}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Department</th>
+                <td class="tbl-row">{{department}}</td>
+                <th class="tbl-row" scope="row">TNT Office</th>
+                <td class="tbl-row">{{tntOffice}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Mobile No Office</th>
+                <td class="tbl-row">{{mobileNoOffice}}</td>
+                <th class="tbl-row" scope="row">Family Contact</th>
+                <td class="tbl-row">{{familyContact}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">MobileNo Personal</th>
+                <td class="tbl-row">{{mobileNoPersonal}}</td>
+                <th class="tbl-row" scope="row">Region</th>
+                <td class="tbl-row">{{region}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Director</th>
+                <td class="tbl-row">{{director}}</td>
+                <th class="tbl-row" scope="row">Yearly Fee</th>
+                <td class="tbl-row">{{yearlyFee}}</td>
+              </tr>
+              <tr>
+                <th  class="tbl-row" scope="row">Issue Qty</th>
+                <td class="tbl-row">{{issueQty}}</td>
+                <th class="tbl-row" scope="row">Last Payment Date</th>
+                <td class="tbl-row">{{lastPaymentDate | date:'mediumDate'}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Member Category</th>
+                <td class="tbl-row">{{memberCategory}}</td>
+                <th class="tbl-row" scope="row">Rank</th>
+                <td class="tbl-row">{{rank}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Designation</th>
+                <td class="tbl-row">{{designation}}</td>
+                <th class="tbl-row" scope="row">Job Status</th>
+                <td class="tbl-row">{{jobStatus}}</td>
+              </tr>
+            </tbody>
+          </table>  
+        </div>     
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+   

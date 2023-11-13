@@ -1,0 +1,345 @@
+<!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Dashboard</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <!-- <a routerLink="/admin/dashboard/main">
+                <i class="fas fa-home"></i> Home</a> -->
+            </li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Dashboard Group btn-->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="card usefullink main">
+            <div class="body">
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom">
+                  <a [routerLink]="['/admin/dashboard/bookinfo-list']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <mat-icon>library_books</mat-icon> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/bookbinding.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            {{bookInfoListCount}}
+                          </h2>
+                          <p class="title-desc">All Book Information</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details
+                            <span class="clickable-btn"><a >></a></span>
+                          </p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                  <!-- <br> -->
+              
+                </div>
+             
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom">
+                  <a [routerLink]="['/admin/dashboard/viewbookissue-list']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bg-operational">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <i class='fas fa-book-reader' style='font-size:48px;color:white'></i> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/issue.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            {{bookIssueListCount}}
+                          </h2>
+                          <p class="title-desc">All Issued Information</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                  <!-- <br> -->
+              
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom">
+                  <a [routerLink]="['/admin/dashboard/online-chat']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bg-nonoperational">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                            <!-- <mat-icon>whatsapp</mat-icon> -->
+                            <img class="fa fa-whatsapp" src="/assets/images/icons/online_chating.png"/>
+                            
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            {{this.chatCount}}
+                          </h2>
+                          <p class="title-desc">Online Chating</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom">
+                  <a [routerLink]="['/admin/dashboard/onlinerequest']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bglogistic">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                            <mat-icon>wifi</mat-icon>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                             {{onlineBookRequestListCount}}
+                          </h2>
+                          <p class="title-desc">Online Book Request</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom">
+                  <a [routerLink]="['/admin/dashboard/personalstate-list']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bg-personnel">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <mat-icon><i class='fas fa-user-friends'></i></mat-icon> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/online-request.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            0
+                            <!-- {{CountPersonalState}} -->
+                          </h2>
+                          <p class="title-desc">Online Registration</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom mt-3">
+                  <a [routerLink]="['/admin/dashboard/personalstate-list']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bg-personnel">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <mat-icon> <i class='fas fa-user-friends'></i></mat-icon> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/notice.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            <!-- {{CountPersonalState}} -->
+                          </h2>
+                          <p class="title-desc">Notice Board</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom mt-3">
+                  <a [routerLink]="['/admin/dashboard/view-softcopymaterial']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bglogistic">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <mat-icon>   <i class='fas fa-user-friends'></i></mat-icon> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/e-book.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            <!-- {{CountPersonalState}} -->
+                          </h2>
+                          <p class="title-desc">E Book/PPT</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom mt-3">
+                  <a [routerLink]="['/admin/dashboard/allmemberinfo-list']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bg-nonoperational">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <mat-icon> <i class='fas fa-user-friends'></i></mat-icon> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/members.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            {{allMemberInfoListCount}}
+                          </h2>
+                          <p class="title-desc">All Members Information</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom mt-3">
+                  <a [routerLink]="['/admin/dashboard/inventorydetails-list']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue bg-operational">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <mat-icon> <i class='fas fa-user-friends'></i></mat-icon> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/inventory1.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            {{inventoryDetailListCount}}
+                          </h2>
+                          <p class="title-desc">All Inventory</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-custom mt-3">
+                  <a [routerLink]="['/admin/dashboard/bookbinding-list']">
+                    <div class=" outer-bond navyblue-border">
+                      <div class="row inner-top navyblue ">
+                        <div class="col-xs-5 col-sm-5 col-md-5">
+                          <!-- <mat-icon><i class='fas fa-user-friends'></i></mat-icon> -->
+                          <img class="fa fa-whatsapp" src="/assets/images/icons/binding.png"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                          <h2 class="title-count">
+                            {{this.bookBindingListCount}}
+                          </h2>
+                          <p class="title-desc">Book Binding</p>
+                        </div>
+                      </div>
+                      <div class="row inner-bottom ">
+                        <div>
+                          <p class="btn-details navyblue-text">View Details<span class="clickable-btn"><a>></a></span></p>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </a>
+                </div>                       
+              </div>
+              <div>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 bulletin-section mt-2">
+                  <div class="row">
+                    <div class="col-lg-1 col-md-1 mb-0">
+                      <div class="title">
+                        <h4>Bulletin:</h4>
+                      </div>
+                    </div>
+                    <div class="col-lg-11 col-md-11 mb-0">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 scrollbar">
+                        <ng-marquee [stopOnHover]="true" duration="25s" >
+                          <mark class="bulletin-item" *ngFor="let data of bulletinList;">{{data.shortName}} Library - {{data.buletinDetails}}</mark>                
+                        </ng-marquee>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row create-table db-tbl cls-rtn">
+                  <h3 class="text-center table-title">Help Line</h3>
+                  <div class="container">
+                    <table class="table tbl-by-group db-li-s-in book-info-list">
+                      <thead>
+                        <tr>
+                          <th class="cl-nm-rnk"><h5>Library</h5></th>
+                          <th class="cl-partno-ac"><h5>Library Authority</h5></th>
+                          <th class="cl-bookname"><h5>Contact Number</h5></th>
+                          <th class="cl-itemname"><h5>Email Address</h5></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let data of groupArrays; let i = index" >
+                          <tr>
+                            <td class="no-border" [attr.rowspan]="data.datas.length + 1">
+                              {{ data.libraryName }}
+                            </td>
+                          </tr>
+                          <tr *ngFor="let number of data.datas">
+                            <td class="ac-no text-left">{{ number.libraryAuthority }}</td>
+                            <td class="text-left">{{ number.helpContact }}</td>
+                            <td class="text-left">{{ number.emailAddress }}</td>
+                            <!-- <td class="actions">
+                              <button mat-icon-button color="accent" class="btn-tbl-edit" [routerLink]="['/helpline-management/update-helpline', number.helpLineId]">
+                                <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                              </button>
+                              <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()" (click)="deleteItem(number)">
+                                <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                              </button>
+                            </td> -->
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</section>

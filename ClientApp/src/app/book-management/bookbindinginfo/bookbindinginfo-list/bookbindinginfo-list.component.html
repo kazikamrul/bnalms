@@ -1,0 +1,238 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Book Binding Info</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Book Binding Info</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                         
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <button class="btn-space" mat-raised-button
+                             color="primary" routerLink="/book-management/add-bookbindinginfo">Add
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button>
+                            <button class="btn-space" mat-raised-button color="accent" (click)="printSingle()">
+                              <mat-icon class="col-white">print</mat-icon>
+                            </button>  
+                          </div>
+                        </li>
+                        <li>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="print-routine">
+                  <table class="table tbl-by-group db-li-s-in db-book-info">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk"> <h5>Ser: </h5></th>
+                        <th class="cl-partno-ac"><h5>Accession No</h5></th>
+                        <th class="cl-bookname"><h5>Category</h5></th>
+                        <th class="cl-itemname"><h5>Book Title</h5></th>
+                        <th class="cl-partno-ac"><h5>Date</h5></th>
+                        <th class="cl-partno-ac"><h5>Press Name</h5></th>
+                        <!-- <th class="cl-partno-ac"><h5>Press Number</h5></th>  -->
+                        <!-- <th class="cl-itemnames"><h5>Sender Officer</h5></th> -->
+                        <th class="cl-mrk-rmrk-act"><h5>Actions</h5></th>                     
+  
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let number of this.bookBindingList let i = index">
+                          <td>{{i+1}}</td>
+                          <td class="ac-no">{{ number.accessionNo }}</td>
+                          <td>{{ number.bookCategoryName }}</td>
+                          <td class="cl-bookname">{{ number.bookTitleName }} {{ number.titleBangla }}</td>
+                          <td>{{ number.date | date:'dd/MM/yyyy'}}</td>
+                          <td>
+                            <a (click)="getBookBindingInfoPopup(number.bookBindingInfoId)" class="underline" style="color: blue; cursor: pointer;" >{{ number.pressName }} </a>
+                            <!-- <button class="press-name-btn" (click)="getBookBindingInfoPopup(number.bookBindingInfoId)"><u>{{ number.pressName }}</u></button> -->
+                          </td>
+                          <!-- <td>{{ number.pressNumber }}</td> -->
+                          
+                          <td class="cl-mrk-rmrk-act">
+                            <div fxLayout="row" fxLayoutGap="20px">
+                              <button *ngIf="this.role == this.userRole.Admin || this.role == this.userRole.SuperAdmin" mat-icon-button color="accent" title="Return" class="btn-tbl-delete btndelete" (click)="returnItem(number.bookInformationId)">
+                                <mat-icon aria-label="Delete" class="col-white view">cached</mat-icon>
+                              </button>
+                              <button title="edit" mat-icon-button color="accent" class="btn-tbl-edit btnedit"
+                              [routerLink]="['/book-management/update-bookbindinginfo', number.bookBindingInfoId]">
+                              <mat-icon aria-label="Edit" class="col-white view">edit</mat-icon>
+                            </button>
+                            <button title="delete" mat-icon-button color="accent" class="btn-tbl-delete btndelete" (click)="$event.stopPropagation()"
+                              (click)="deleteItem(number)">
+                              <mat-icon aria-label="Delete" class="col-white view">delete</mat-icon> 
+                            </button>
+                            </div>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+                 
+                  <ng-container matColumnDef="sl">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ser. </mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
+                  </ng-container> 
+                  <ng-container class="pr-an"  matColumnDef="accessionNo">
+                    <mat-header-cell class="pr-an"  *matHeaderCellDef mat-sort-header> Accession No </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.accessionNo}} </mat-cell>
+                  </ng-container>
+                  <ng-container class="pr-c"  matColumnDef="category">
+                    <mat-header-cell class="pr-c"  *matHeaderCellDef mat-sort-header> Category</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+                  </ng-container>
+                  <ng-container class="pr-bt"  matColumnDef="bookTitleEnglish">
+                    <mat-header-cell class="pr-bt"  *matHeaderCellDef mat-sort-header> Book Title </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.bookTitleEnglish}} </mat-cell>
+                  </ng-container>
+                  <ng-container class="pr-bc"  matColumnDef="pressName">
+                    <mat-header-cell class="pr-bc"  *matHeaderCellDef mat-sort-header> Press Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.pressName}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="pressAddress">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Press Address</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.pressAddress}} </mat-cell>
+                  </ng-container>
+                  <ng-container class="pr-mc" matColumnDef="pressEmail">
+                    <mat-header-cell class="pr-mc" *matHeaderCellDef mat-sort-header>Press Email </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.pressEmail}} </mat-cell>
+                  </ng-container>
+                  <ng-container class="pr-mc" matColumnDef="senderOfficer">
+                    <mat-header-cell class="pr-mc" *matHeaderCellDef mat-sort-header>Sender Officer</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.senderOfficer}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef class="pr-b">Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let row; let i=index;" class="pr-b">
+                      <button mat-icon-button color="accent" class="btn-tbl-edit"
+                      [routerLink]="['/book-management/update-bookbindinginfo', row.bookBindingInfoId]">
+                        <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                      </button>
+                      <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                        (click)="deleteItem(row)">
+                        <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                      </button>
+                      
+                    </mat-cell>
+                  </ng-container>
+                
+                  
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns; "></mat-row>
+                </mat-table> -->
+                
+                <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  (page)="pageChanged($event)">
+                  </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="overlay" *ngIf="userInfoPopup">
+    <div class="popup member-details">
+      <h2>Book Binding Info Details</h2> 
+      <a class="close" (click)="userInfoPopup = false">&times;</a>
+      <div class="content">
+        <div class="responsive_table">
+          <table class="tablepopup">
+            <thead>
+              
+            </thead>
+            <tbody>
+              <tr>
+                <th class="tbl-row" scope="row">Accession No</th>
+                <td class="tbl-row">{{accessionNo}}</td>
+                <th class="tbl-row" scope="row">Book Title(English)</th>
+                <td class="tbl-row">{{bookTitleEnglish}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Book Title(Bangla)</th>
+                <td class="tbl-row">{{bookTitleBangla}}</td>
+                <th class="tbl-row" scope="row">Date</th>
+                <td class="tbl-row">{{date | date:'mediumDate'}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Press Name</th>
+                <td class="tbl-row">{{pressName}}</td>
+                <th class="tbl-row" scope="row">Press Number</th>
+                <td class="tbl-row">{{pressNumber}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Press Address</th>
+                <td class="tbl-row">{{pressAddress}}</td>
+                <th class="tbl-row" scope="row">Press Email</th>
+                <td class="tbl-row">{{pressEmail}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Senior Officer</th>
+                <td class="tbl-row">{{senderOfficer}}</td>
+                <th class="tbl-row" scope="row">Office Dispise Number</th>
+                <td class="tbl-row">{{officeDispiseNumber}}</td>
+              </tr>
+              <tr>
+                <th class="tbl-row" scope="row">Category</th>
+                <td class="tbl-row">{{category}}</td>
+              </tr>
+            </tbody>
+          </table>  
+        </div>     
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+   

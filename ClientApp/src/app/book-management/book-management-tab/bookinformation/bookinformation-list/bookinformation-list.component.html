@@ -1,0 +1,225 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Book Information</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Book Information</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-4">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                          <mat-label>Book Category</mat-label>                        
+                          <mat-select formControlName="bookCategoryId" (selectionChange)="onCategorySelectionChange($event.value)" required>
+                            <mat-option  value="0">--Select--</mat-option >
+                              <mat-option *ngFor="let dropdown of selectedBookCategory" [value]="dropdown.value">
+                                  {{dropdown.text}} 
+                                </mat-option>                          
+                          </mat-select>
+                          <!-- <mat-error *ngIf="BookInformationForm.get('bookCategoryId').hasError('required')">
+                            Category  is Required!
+                          </mat-error> --> 
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <button class="btn-space" mat-raised-button
+                             color="primary" routerLink="/book-management/book-management-tab/add-bookinformation">Add
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                        <li>
+                          <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                            <mat-icon class="col-white">print</mat-icon>
+                          </button>      
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="print-routine">
+                  <table class="table tbl-by-group db-li-s-in db-book-info info-list">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk">
+                          <h5>Type</h5>
+                        </th>
+                        <th class="cl-partno-ac"><h5>Accession No</h5></th>
+                        <th class="cl-bookname"><h5>Book Title</h5></th>
+                        <th class="cl-itemname"><h5>Main Class</h5></th>
+                        <th class="cl-authorname"><h5>Author Name</h5></th>
+                        <th class="cl-itemname"><h5>Publisher</h5></th>
+                        <!-- <th class="cl-itemname"><h5>Row Name</h5></th>
+                        <th class="cl-itemname"><h5>Shelf Name</h5></th> -->
+                        <!-- <th class="cl-trade"><h5>Image</h5></th> -->
+                        <th class="cl-itemname"><h5>Status</h5></th>    
+                        <!-- <th class="cl-itemname"><h5>Barcode</h5></th>         -->
+                        <th class="cl-itemname-img"><h5></h5></th>       
+                        <th class="cl-mrk-rmrk-act"><h5>Actions</h5></th>                     
+  
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let data of groupArrays; let i = index" >
+                        <tr>
+                          <td class="no-border" [attr.rowspan]="data.datas.length + 1">
+                            {{ data.bookCategoryName }}
+                          </td>
+                        </tr>
+                        <tr *ngFor="let number of data.datas">
+                          <td class="ac-no">{{ number.mergeId }}</td>
+                          <td class="booktitlecolumn">{{ number.bookTitleName }} {{ number.titleBangla }}</td>
+                          <td>{{ number.mainClass }}</td>
+                          <td>{{ number.authorName }}</td>
+                          <td>{{ number.publishersName }}</td>
+                          <!-- <td>{{ number.rowName }}</td>
+                          <td>{{ number.shelfName }}</td> -->
+                          <!-- <td >
+                            <img  [src]="this.fileUrl+number.coverImage"/>
+                          </td> -->
+
+                          <!-- <div *ngIf="data.status === 0">
+                            <span class="att-completed">OPL</span>
+                          </div>
+                          <div *ngIf="data.status === 1">
+                            <span class="att-due">NON-OPL</span>
+                          </div> -->
+                          <td>
+                            <div *ngIf="number.issueStatus === 0">
+                              <span class="att-completed">Available</span>
+                            </div>
+                            <div *ngIf="number.issueStatus === 1">
+                              <button class="issuebutton" [routerLink]="['/book-management/book-management-tab/view-memberinformation',  number.memberInfoId]"><span class="att-due"><u>Issued</u></span></button>
+                            </div>
+                            <div *ngIf="number.issueStatus === 2">
+                              <span class="att-binding">Binding</span>
+                            </div>
+                          </td>
+                          <td class="table-img img-on-hover">
+                            <img [src]="number.coverImage"/>
+                            <!-- <img  [src]="element.bnaPhotoUrl" /> -->
+                            <div class="pop-on-hover">
+                              <span>Cover Photo</span>
+                              <img  [src]="coverImage"/>
+                            </div>
+                          </td>
+                          <!-- <td>
+                            <i class="fa fa-barcode" style="font-size:48px;color:black"></i>
+                          </td> -->
+                          <td class="cl-mrk-rmrk-act-d">
+                            <div fxLayout="row" fxLayoutGap="20px">
+                              <!-- <img  [src]="this.fileUrl+number.coverImage"/> -->
+                              <button  title="Online Book Request" mat-icon-button color="accent"   class="btn-tbl-delete btndelete" [routerLink]="['/admin/dashboard/onlinebookrequest-list',number.bookInformationId]">
+                                <!-- <mat-icon aria-label="Delete" class="col-white view"> exit_to_app</mat-icon>     -->
+                                <!-- <mat-icon class="col-white view">add_shopping_cart</mat-icon>                         -->
+                                {{ number.countOnlineRequest }}
+                              </button> 
+                              <button  title="Barcode"   class="btn-space custom barcode" (click)="getPopup(number.mergeId)">
+                                <!-- <i class="fa fa-barcode"></i>     -->
+                                <i class="fa fa-qrcode" style="color:black"></i>                          
+                              </button> 
+                            
+                              <button title="Book Information Details" mat-icon-button color="accent" class="btn-tbl-edit btnview"
+                                [routerLink]="['/book-management/book-management-tab/view-bookinformation',  number.bookInformationId]">
+                                <mat-icon aria-label="Edit" class="col-white view">visibility</mat-icon>
+                              </button>
+                              <button title="Imprint" mat-icon-button color="accent" class="btn-tbl-edit update-trainee btnbio"
+                                [routerLink]="['/book-management/book-management-tab/main-tab-layout/', number.bookInformationId]">
+                                <mat-icon aria-label="Edit" class="col-white view">find_replace</mat-icon>
+                              </button>
+
+                              <button *ngIf="number.issueStatus === 0 && role == userRole.Admin" title="Admin Damage" mat-icon-button color="accent" class="btn-tbl-edit btnedit" (click)="$event.stopPropagation()"
+                              [routerLink]="['/book-management/book-management-tab/update-bookinformationdamaged', number.bookInformationId]">
+                               <!-- <mat-icon aria-label="Edit" class="col-white view">book_damage</mat-icon>  -->
+                              <img class="img-dusticon" src="/assets/images/icons/dusticon.PNG">
+                            </button>
+                              <button title="edit" mat-icon-button color="accent" class="btn-tbl-edit btnedit"
+                                [routerLink]="['/book-management/book-management-tab/update-bookinformation', number.bookInformationId]">
+                                <mat-icon aria-label="Edit" class="col-white view">edit</mat-icon>
+                              </button>
+                              <button title="delete" mat-icon-button color="accent" class="btn-tbl-delete btndelete" (click)="$event.stopPropagation()"
+                                (click)="deleteItem(number)">
+                                <mat-icon aria-label="Delete" class="col-white view">delete</mat-icon> 
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                  <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  (page)="pageChanged($event)">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="overlay" *ngIf="popup">
+    <div class="popup">
+      <h2>Barcode</h2>
+      <a class="close" (click)="popup = false">&times;</a>
+      <div class="content">
+        <!-- you have selected this event -->
+        <div id="print-barcode">
+          <ngx-barcode class="print-barcode-design" [bc-value]="this.barcodeId" [bc-display-value]="false" ></ngx-barcode>
+        </div>
+        <button class="btn-space" mat-raised-button color="primary" (click)="printBarcodeSingle()" >
+          <mat-icon class="col-white">print</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+   

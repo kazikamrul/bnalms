@@ -1,0 +1,297 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Fee Information</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form class="m-4" [formGroup]="FeeInformationForm" (ngSubmit)="onSubmit()">
+                
+                <div class="row">
+                  <div *ngIf="role == userRole.SuperAdmin" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Library Name </mat-label>
+                      <mat-select formControlName="baseSchoolNameId" required >
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <!-- (selectionChange)="getFeeInformationListByPNO()" -->
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>P/O No </mat-label>                        
+                        <input formControlName="pno" matInput type="text" [matAutocomplete]="auto1" />
+                        <mat-autocomplete #auto1="matAutocomplete" >
+                          <mat-option  *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onPnoSelectionChanged(item)">
+                            {{item.text}}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label> Fee Category</mat-label>                        
+                        <mat-select formControlName="feeCategoryId" required (selectionChange)="getCategoryField()">
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option (onSelectionChange)="onDamage($event)" *ngFor="let dropdown of selectedFeeCategory" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="FeeInformationForm.get('feeCategoryId').hasError('required')">
+                          Category  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Paid Amount</mat-label>
+                      <input matInput formControlName="paidAmount" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="m-t-12">Rank & Name : <span class="c-color">{{rank}} - {{memberName}}</span> </h5>
+                    <h5 class="m-t-12">Type of Member : <span class="c-color">{{designation}}</span> </h5>
+                    <!-- <h5 class="m-t-12">Library Name : <span class="c-color">{{department}}</span> </h5> -->
+                    <h5 class="m-t-12">MobileNo(Personal) : <span class="c-color">{{mobileNoPersonal}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Paid Date</mat-label>
+                        <input matInput [matDatepicker]="paidpicker" formControlName="paidDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="paidpicker"></mat-datepicker-toggle>
+                       <mat-datepicker #paidpicker></mat-datepicker> 
+                       <mat-error *ngIf="FeeInformationForm.get('paidDate').hasError('required')">
+                        Paid Date  is Required!
+                      </mat-error>                                           
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="lostDamage==3"  class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Accession No </mat-label>                        
+                        <input formControlName="accessionNo" required matInput type="text" [matAutocomplete]="auto1" />
+                        <mat-autocomplete #auto1="matAutocomplete" >
+                          <mat-option  *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onAccessionNoSelectionChanged(item)">
+                            {{item.text}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="FeeInformationForm.get('accessionNo').hasError('required')">
+                          Accession No  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="isCategoryShow" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> User Expired Date</mat-label>
+                        <input matInput [matDatepicker]="accpicker" formControlName="expiredDate" >
+                        <mat-datepicker-toggle matSuffix [for]="accpicker"></mat-datepicker-toggle>
+                       <mat-datepicker #accpicker></mat-datepicker>                                            
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <h5 class="m-t-12">Type of Member : <span class="c-color">{{designation}}</span> </h5>
+                  </div> -->
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <div class="row">
+                      <mat-label>Received</mat-label>
+                    </div>
+                    <div class="radio-btn row">
+                      <mat-radio-group formControlName="receivedAmount" required>
+                        <mat-radio-button class="example-margin"  value="Yes" >Yes</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="No" >No</mat-radio-button>
+                        <mat-error *ngIf="FeeInformationForm.get('receivedAmount').hasError('required')">
+                          Received  is Required!
+                        </mat-error>
+                      </mat-radio-group>
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <h5 class="m-t-12">Library Name : <span class="c-color">{{department}}</span> </h5>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                    <h5 class="m-t-12">MobileNo(Office) : <span class="c-color">{{mobileNoOffice}}</span> </h5>
+                  </div> -->
+                 
+               
+            </div>
+           
+              <!-- <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-2">
+                <div class="row right-row">
+            
+              
+             
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                <h5 class="m-t-12">Rank & Name : <span class="c-color">{{rank}} - {{memberName}}</span> </h5>
+              </div>
+             
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                <h5 class="m-t-12">Type of Member : <span class="c-color">{{designation}}</span> </h5>
+              </div>
+              
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                <h5 class="m-t-12">Library Name : <span class="c-color">{{department}}</span> </h5>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+                <h5 class="m-t-12">MobileNo(Office) : <span class="c-color">{{mobileNoOffice}}</span> </h5>
+              </div>
+            </div>
+         
+       
+      </div> -->
+            
+            
+               
+                <div class="row">
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!FeeInformationForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <!-- <button type="button" mat-button routerLink="/member-management/feeinformation-list">Cancel</button> -->
+                  </div>
+                  
+                </div>
+              </form>
+              <div *ngIf="isShown" class="row create-table db-tbl cls-rtn">
+                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 mb-2">
+                <h3 class="text-center table-title">Fee Information List  </h3>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2-p">
+                  <button class="btn-space" mat-raised-button color="accent" (click)="printSingle()">
+                    <mat-icon class="col-white">print</mat-icon>
+                  </button>
+                </div>
+                <!-- <button class="btn-space" mat-raised-button color="accent" (click)="printSingle()">
+                  <mat-icon class="col-white">print</mat-icon>
+                </button>  -->
+                
+                <div class="container">
+                  <div id="print-routine">
+                    <table class="table tbl-by-group db-li-s-in db-book-info">
+                      <thead>
+                        <tr>
+                          <!-- <th class="cl-nm-rnk"> <h5>Ser: </h5></th> -->
+                          <!-- <th class="cl-itemname"><h5>Fee Cagegory</h5></th> -->
+                          <th class="cl-bookname"><h5>PNo & Name</h5></th>
+                          <th class="cl-itemname"><h5>Fee Cagegory</h5></th>
+                          <th class="cl-partno-ac"><h5>Paid Amount</h5></th>
+                          <th class="cl-partno-ac"><h5>Expired Date</h5></th>
+                          <th class="cl-partno-ac"><h5>Accession No</h5></th>
+                          <!-- <th class="cl-partno-ac"><h5>Press Number</h5></th>  -->
+                          <th class="cl-mrk-rmrk-act"><h5>Actions</h5></th>                     
+    
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let data of groupArrays; let i = index" >
+                          <tr>
+                            <td class="no-border" [attr.rowspan]="data.datas.length + 1">
+                              {{ data.pno }}
+                            </td>
+                          </tr>
+                          <tr *ngFor="let number of data.datas">
+                            <!-- <td>{{i+1}}</td> -->
+                          
+                            <!-- <td>{{ number.pno }}</td> -->
+                            <td class="cl-bookname">{{ number.cagegory }} </td>
+                            <td>{{ number.paidAmount }}</td>
+                            <td>{{ number.expiredDate | date:'dd/MM/yyyy'}}</td>
+                            <td class="ac-no">{{ number.accessionNo }}</td>
+                            <!-- <td>{{ number.pressNumber }}</td> -->
+                            
+                            <td class="cl-mrk-rmrk-act">
+                              <div fxLayout="row" fxLayoutGap="20px">
+                             
+                                <button title="edit" mat-icon-button color="accent" class="btn-tbl-edit btnedit"
+                                [routerLink]="['/member-management/update-feeinformation', number.feeInformationId]">
+                                <mat-icon aria-label="Edit" class="col-white view">edit</mat-icon>
+                              </button>
+                              <button title="delete" mat-icon-button color="accent" class="btn-tbl-delete btndelete" (click)="$event.stopPropagation()"
+                                (click)="deleteItem(number)">
+                                <mat-icon aria-label="Delete" class="col-white view">delete</mat-icon> 
+                              </button>
+                              </div>
+                            </td>
+                          </tr>
+                        
+                          </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- <mat-table #table [dataSource]="feeInformationList" matSort class="mat-cell">
+                 
+                    <ng-container matColumnDef="sl">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Ser. </mat-header-cell>
+                      <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
+                    </ng-container> 
+                    <ng-container class="pr-bc"  matColumnDef="accessionNo">
+                      <mat-header-cell class="pr-bc"  *matHeaderCellDef mat-sort-header> Accession No </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.accessionNo}} </mat-cell>
+                    </ng-container>
+                    <ng-container class="pr-bc"  matColumnDef="pno">
+                      <mat-header-cell class="pr-bc"  *matHeaderCellDef mat-sort-header> PNo </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.pno}} </mat-cell>
+                    </ng-container>
+                    <ng-container class="pr-bc"  matColumnDef="cagegory">
+                      <mat-header-cell class="pr-bc"  *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.cagegory}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="paidAmount">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Paid Amount</mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.paidAmount}} </mat-cell>
+                    </ng-container>
+                    <ng-container class="pr-mc" matColumnDef="paidDate">
+                      <mat-header-cell class="pr-mc" *matHeaderCellDef mat-sort-header>Paid Date </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.paidDate |date: 'dd MMM, yyyy'}} </mat-cell>
+                    </ng-container>
+                    <ng-container class="pr-mc" matColumnDef="expiredDate">
+                      <mat-header-cell class="pr-mc" *matHeaderCellDef mat-sort-header>User Expired Date </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.expiredDate |date: 'dd MMM, yyyy'}} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="actions">
+                      <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
+                      <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                        <button mat-icon-button color="accent" class="btn-tbl-edit"
+                        [routerLink]="['/member-management/update-feeinformation', row.feeInformationId]">
+                          <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                          (click)="deleteItem(row)">
+                          <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                        </button>
+                        
+                      </mat-cell>
+                    </ng-container>
+                  
+                    
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns; "></mat-row>
+                  </mat-table> -->
+            </div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

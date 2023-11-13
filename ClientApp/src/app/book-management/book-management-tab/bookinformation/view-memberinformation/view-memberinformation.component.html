@@ -1,0 +1,152 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">Member Details</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+
+            <div class="responsive_table">
+              <div class="materialTableHeader">
+                <div class="row"> 
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h4>Member Details</h4>
+                      </li>
+                    </ul> 
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">  
+                      <li>
+                        <div class="icon-button-demo">
+                          <button  class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/book-management/book-management-tab/bookinformation-list']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>
+                          <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                            <mat-icon class="col-white">print</mat-icon>
+                          </button>  
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div id="print-routine">
+              <table class="table table-bordered-v">
+                <thead>
+                  
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Member Name</th>
+                    <td>{{memberName}}</td>
+                    <th scope="row">Email</th>
+                    <td>{{email}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Father Name</th>
+                    <td>{{fatherName}}</td>
+                    <th scope="row">Mother Name</th>
+                    <td>{{motherName}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Present Address</th>
+                    <td>{{presentAddress}}</td>
+                    <th scope="row">Permanent Address</th>
+                    <td>{{permanentAddress}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">NID</th>
+                    <td>{{nid}}</td>
+                    <th scope="row">Sex</th>
+                    <td>{{sex}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Issue Date</th>
+                    <td>{{issueDate | date:'mediumDate'}}</td>
+                    <th scope="row">Expire Date</th>
+                    <td>{{expireDate | date:'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">DOB</th>
+                    <td>{{dob | date:'mediumDate'}}</td>
+                    <th scope="row">Pno</th>
+                    <td>{{pno}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Department</th>
+                    <td>{{department}}</td>
+                    <th scope="row">TNT Office</th>
+                    <td>{{tntOffice}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mobile No Office</th>
+                    <td>{{mobileNoOffice}}</td>
+                    <th scope="row">Family Contact</th>
+                    <td>{{familyContact}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">MobileNo Personal</th>
+                    <td>{{mobileNoPersonal}}</td>
+                    <th scope="row">Region</th>
+                    <td>{{region}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Director</th>
+                    <td>{{director}}</td>
+                    <th scope="row">Yearly Fee</th>
+                    <td>{{yearlyFee}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Issue Qty</th>
+                    <td>{{issueQty}}</td>
+                    <th scope="row">Last Payment Date</th>
+                    <td>{{lastPaymentDate | date:'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Member Category</th>
+                    <td>{{memberCategory}}</td>
+                    <th scope="row">Rank</th>
+                    <td>{{rank}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Designation</th>
+                    <td>{{designation}}</td>
+                    <th scope="row">Job Status</th>
+                    <td>{{jobStatus}}</td>
+                  </tr>
+                  <tr>
+                    
+                    <th class="coverImage" scope="row">Cover Image</th>
+                    <td class="coverImage" > <img src={{imageUrl}} /></td>
+                    <td class="coverImage" ></td>
+                    <th class="coverImage" scope="row"></th>
+                    <td class="coverImage"></td>
+                  </tr>
+                </tbody>
+              </table>  
+              </div>        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

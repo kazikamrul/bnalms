@@ -1,0 +1,149 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Help Line</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form *ngIf="role != userRole.Member" class="m-4" [formGroup]="HelpLineForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+
+                  <div *ngIf="role == userRole.SuperAdmin" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Library Name </mat-label>
+                      <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getHelpLineListByDepartment()">
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Designation</mat-label>
+                      <input matInput formControlName="designation" >
+                      <mat-error *ngIf="HelpLineForm.get('designation').hasError('required')">
+                        designation  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div> -->
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Library Authority</mat-label>                        
+                        <mat-select formControlName="libraryAuthorityId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedLibraryAuthorities" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="HelpLineForm.get('libraryAuthorityId').hasError('required')">
+                          Library Authority  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Contact Number</mat-label>
+                      <input matInput formControlName="helpContact" required>
+                      <mat-error *ngIf="HelpLineForm.get('helpContact').hasError('required')">
+                         Contact Number is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Email Address</mat-label>
+                      <input matInput formControlName="emailAddress" >
+                      <mat-error *ngIf="HelpLineForm.get('emailAddress').hasError('required')">
+                        Email Address  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                 
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Event Location</mat-label>
+                      <input matInput formControlName="eventLocation" >
+                    </mat-form-field>
+                  </div> -->
+                
+                  
+                  
+                 
+                 
+                  
+                  
+                  
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!HelpLineForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <!-- <button type="button" mat-button routerLink="/helpline-management/helpline-list">Cancel</button> -->
+                  </div>
+                </div>
+              </form>
+              <div *ngIf="isShown" class="row create-table db-tbl cls-rtn">
+                <h3 class="text-center table-title">Help Line List</h3>
+                <div class="container">
+                  <table class="table tbl-by-group db-li-s-in book-info-list">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk"><h5>Library</h5></th>
+                        <th class="cl-partno-ac"><h5>Library Authority</h5></th>
+                        <th class="cl-bookname"><h5>Contact Number</h5></th>
+                        <th class="cl-itemname"><h5>Email Address</h5></th>
+                        <th *ngIf="role != userRole.Member" class="cl-authorname"><h5>Actions</h5></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let data of groupArrays; let i = index" >
+                        <tr>
+                          <td class="no-border" [attr.rowspan]="data.datas.length + 1">
+                            {{ data.libraryName }}
+                          </td>
+                        </tr>
+                        <tr *ngFor="let number of data.datas">
+                          <td class="ac-no">{{ number.libraryAuthority }}</td>
+                          <td>{{ number.helpContact }}</td>
+                          <td>{{ number.emailAddress }}</td>
+                          <td *ngIf="role != userRole.Member" class="actions">
+                            <button mat-icon-button color="accent" class="btn-tbl-edit" [routerLink]="['/helpline-management/update-helpline', number.helpLineId]">
+                              <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()" (click)="deleteItem(number)">
+                              <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                            </button>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

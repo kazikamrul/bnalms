@@ -1,0 +1,169 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Book Issue</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Book Issue</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-4">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <input placeholder="Search Accession No" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      
+                          <h3 class="text-center mt-3">Issued List</h3>
+                        
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <button class="btn-space" mat-raised-button color="accent" (click)="printSingle()">
+                              <mat-icon class="col-white">print</mat-icon>
+                            </button>  
+                            <button class="btn-space" mat-raised-button
+                             color="primary" routerLink="/book-management/add-bookissueandsubmission">New Issue
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                        <li>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="print-routine">
+                <table class="table tbl-by-group db-li-s-in">
+                  <thead>
+                    <tr>
+                      <th class="cl-mrk"><h5>P/O No</h5></th>
+                      <th class="cl-mrk-rmrk"><h5>Accession No</h5></th>
+                      <th class="booktitle-issue"><h5>Book Title</h5></th>
+                      <th class="cl-mrk-rmrk"><h5>Issue Date</h5></th>
+                      <th class="cl-mrk-rmrk"><h5>Return Date</h5></th>
+                      <th class="cl-mrk-rmrk"><h5>Due</h5></th>
+                      <th class="thbm"><h5>Return</h5></th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <ng-container
+                        *ngFor="let data of groupArrays; let i = index"
+                      >
+                        <tr>
+                          <td [attr.rowspan]="data.datas.length + 1">
+                            {{ data.pno }}
+                          </td>
+                        </tr>
+                        <tr *ngFor="let number of data.datas">
+                          <td>{{ number.accessionNo }}</td>
+                          <td class="booktitle-issue">{{ number.bookTitle }}</td>
+                          <td>{{ number.issueDate | date: "dd/MMM/yyyy" }}</td>
+                          <td>{{ number.returnDate | date: "dd/MMM/yyyy" }}</td>
+                          <td>
+                            <span *ngIf="getDueDays(number.returnDate) > 0">{{getDueDays(number.returnDate)}}</span>
+                          </td>
+                          <td class="thbm">
+                            <button mat-icon-button color="accent" title="Return" class="btn-tbl-delete" (click)="returnItem(number)">
+                              <mat-icon>cached</mat-icon>
+                            </button>
+                            <!-- <button mat-icon-button title="Damage" color="accent" class="btn-tbl-edit"
+                              [routerLink]="['/book-management/update-damagereturn', number.bookIssueAndSubmissionId]">
+                              <mat-icon aria-label="Edit" class="col-white">highlight_off</mat-icon>
+                            </button> -->
+                            <button *ngIf="role == userRole.Admin" title="Damage" mat-icon-button color="accent" class="btn-tbl-edit btnedit" (click)="$event.stopPropagation()"
+                            [routerLink]="['/book-management/update-damagereturn', number.bookIssueAndSubmissionId]">
+                               <!-- <mat-icon aria-label="Edit" class="col-white view">book_damage</mat-icon>  -->
+                              <img class="img-dusticon" src="/assets/images/icons/dusticon.PNG">
+                            </button>
+                          </td>
+                        </tr>
+                    </ng-container>
+
+                    <ng-container *ngIf="getUserDataRow == 1">
+                      <tr>
+                        <td colspan="7"><b>All Data from the Same User</b></td>
+                      </tr>                        
+                        <tr *ngFor="let number of IssueListByUser">
+                          <td>{{ number.pno }}</td>
+                          <td>{{ number.accessionNo }}</td>
+                          <td>{{ number.bookTitle }}</td>
+                          <td>{{ number.issueDate | date: "dd/MMM/yyyy" }}</td>
+                          <td>{{ number.returnDate | date: "dd/MMM/yyyy" }}</td>
+                          <td>{{getDueDays(number.returnDate)}}</td>
+                          <td>
+                            <button mat-icon-button color="accent" title="Return" class="btn-tbl-delete" (click)="returnItem(number)">
+                              <mat-icon>cached</mat-icon>
+                            </button>
+                            <!-- <button mat-icon-button title="Damage" color="accent" class="btn-tbl-edit"
+                              [routerLink]="['/book-management/update-damagereturn', number.bookIssueAndSubmissionId]">
+                              <mat-icon aria-label="Edit" class="col-white">highlight_off</mat-icon>
+                            </button> -->
+                            <button title="Damage" mat-icon-button color="accent" class="btn-tbl-edit btnedit" (click)="$event.stopPropagation()"
+                            [routerLink]="['/book-management/update-damagereturn', number.bookIssueAndSubmissionId]">
+                               <!-- <mat-icon aria-label="Edit" class="col-white view">book_damage</mat-icon>  -->
+                              <img class="img-dusticon" src="/assets/images/icons/dusticon.PNG">
+                            </button>
+                          </td>
+                        </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+                </div>
+                
+                <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  (page)="pageChanged($event)">
+                </mat-paginator> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+   

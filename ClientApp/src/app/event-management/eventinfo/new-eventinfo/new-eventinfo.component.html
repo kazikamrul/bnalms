@@ -1,0 +1,157 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Event Information</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form class="m-4" [formGroup]="EventInfoForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+
+                  <div *ngIf="role == userRole.SuperAdmin" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Library Name </mat-label>
+                      <mat-select formControlName="baseSchoolNameId" required >
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Event Name</mat-label>
+                      <input matInput formControlName="eventName" required>
+                      <mat-error *ngIf="EventInfoForm.get('eventName').hasError('required')">
+                        Event Name  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Event Subject</mat-label>
+                      <input matInput formControlName="eventSubject" >
+                      <!-- <mat-error *ngIf="EventInfoForm.get('eventSubject').hasError('required')">
+                        eventSubject  is Required!
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Event Purpose</mat-label>
+                      <input matInput formControlName="eventPurpose" >
+                      <!-- <mat-error *ngIf="EventInfoForm.get('eventPurpose').hasError('required')">
+                        eventPurpose  is Required!
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Event Location</mat-label>
+                      <input matInput formControlName="eventLocation" >
+                      <!-- <mat-error *ngIf="EventInfoForm.get('eventLocation').hasError('required')">
+                        eventLocation is Required!
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Event From</mat-label>
+                        <input matInput [matDatepicker]="efpicker" formControlName="eventFrom" required>
+                        <mat-datepicker-toggle matSuffix [for]="efpicker"></mat-datepicker-toggle>
+                       <mat-datepicker #efpicker></mat-datepicker>  
+                       <mat-error *ngIf="EventInfoForm.get('eventFrom').hasError('required')">
+                        Event From is Required!
+                      </mat-error>                                          
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Event To</mat-label>
+                        <input matInput [matDatepicker]="etpicker" formControlName="eventTo" required>
+                        <mat-datepicker-toggle matSuffix [for]="etpicker"></mat-datepicker-toggle>
+                       <mat-datepicker #etpicker></mat-datepicker>  
+                       <mat-error *ngIf="EventInfoForm.get('eventTo').hasError('required')">
+                        Event To is Required!
+                      </mat-error>                                           
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Event Guest</mat-label>
+                      <input matInput formControlName="eventGuest" >
+                      <!-- <mat-error *ngIf="EventInfoForm.get('eventGuest').hasError('required')">
+                        eventGuest is Required!
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Event Budget</mat-label>
+                      <input matInput formControlName="eventBudget" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Approved Budget</mat-label>
+                      <input matInput formControlName="approveBadget" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Approved Name</mat-label>
+                      <input matInput formControlName="approvedName" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Budget Date</mat-label>
+                        <input matInput [matDatepicker]="bdpicker" formControlName="budgetDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="bdpicker"></mat-datepicker-toggle>
+                       <mat-datepicker #bdpicker></mat-datepicker>  
+                       <mat-error *ngIf="EventInfoForm.get('budgetDate').hasError('required')">
+                        Event To is Required!
+                      </mat-error>                                           
+                    </mat-form-field>
+                  </div>
+                  
+                  
+                </div>
+            
+            
+               
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!EventInfoForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <button type="button" mat-button routerLink="/event-management/eventinfo-list">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

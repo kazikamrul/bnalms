@@ -1,0 +1,136 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Member Info</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Member Info</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <!-- <button class="btn-space" mat-raised-button
+                             color="primary" routerLink="/member-management/add-activedeactivemember">Add
+                              <mat-icon class="col-white">add</mat-icon>
+                            </button> -->
+                          </div>
+                        </li>
+                        <li>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <table class="table tbl-by-group db-li-s-in">
+                  <thead>
+                    <tr>
+                      <th class="thbm"><h5>Ser</h5></th>
+                      <th class="thbm"><h5>P/O No</h5></th>
+                      <th class="thbm"><h5>Member Name</h5></th>
+                      <th class="thbm"><h5>Father Name</h5></th>
+                      <th class="thbm"><h5>Mother Name</h5></th>
+                      <th class="thbm"><h5>Mobile (Personal)</h5></th>
+                      <th class="cl-action"><h5></h5></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngFor="
+                        let data of dataSource.data;
+                        let i = index
+                      "
+                    >
+                      <tr>
+                        <td>
+                          {{
+                            (paging.pageIndex - 1) * paging.pageSize + i + 1
+                          }}
+                        </td>
+                        <td>
+                          {{ data.pno }}
+                        </td>
+                        <td>
+                          {{ data.memberName }}
+                        </td>
+                        <td>
+                          {{ data.fatherName }}
+                        </td>
+                        <td>
+                          {{ data.motherName }}
+                        </td>
+                        <td>
+                          {{ data.mobileNoPersonal }}
+                        </td>
+                        <!-- *ngIf="data.jobStatus != 1" -->
+                        <td class="cl-action">
+                          <div>
+                            <button *ngIf="data.empStatus != 1" mat-icon-button  color="primary" title="Active" (click)="acctiveMember(data)"  (click)="$event.stopPropagation()"><mat-icon>cancel_presentation</mat-icon></button>
+                            <button *ngIf="data.empStatus != 0" mat-icon-button class="accent" title="InActive"  (click)="inAcctiveMember(data)"  (click)="$event.stopPropagation()"><mat-icon> check_circle</mat-icon></button>
+                      
+                          </div>
+                          {{ data.actions }}
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+                
+                
+                <!-- <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+                  [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+                  (page)="pageChanged($event)">
+                  </mat-paginator> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+   

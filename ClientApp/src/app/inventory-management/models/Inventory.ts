@@ -1,0 +1,21 @@
+export interface Inventory {
+    inventoryId: number,
+    inventoryTypeId: number,
+    baseSchoolNameId: number,
+    identityNo: string,
+    location: string,
+    remarks: string,
+    brand: string,
+    quantity: string,
+    model: string,
+    purchaseDate: Date,
+    companyName: string,
+    contractNumber: string,
+    price: number,
+    damageStatus: number,
+    damageDate: Date,
+    damageReason: string,
+    menuPosition: number,
+    inventoryType:string,
+    isActive: true
+}

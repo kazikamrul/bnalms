@@ -1,0 +1,157 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">Book Information Details</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+
+            <div class="responsive_table">
+              <div class="materialTableHeader">
+                <div class="row"> 
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h4>Book Information Details</h4>
+                      </li>
+                    </ul> 
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">  
+                      <li>
+                        <div class="icon-button-demo">
+                          <!-- <button *ngIf="role == userRole.SuperAdmin" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/book-management/book-management-tab/bookinformation-list']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>
+
+                          <button *ngIf="role == userRole.Admin" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/book-management/book-management-tab/bookinformation-list']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button> -->
+
+                          <!-- <button *ngIf="role == userRole.Admin" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/admin/dashboard/bookinfo-list']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button> -->
+
+                          <button  class="btn-space"  mat-raised-button color="warn" (click)="backClicked()"> 
+                            <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button> 
+                          
+                          <!-- <button *ngIf="role == userRole.User" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/admin/dashboard/bookinfo-list']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button> -->
+                          <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                            <mat-icon class="col-white">print</mat-icon>
+                          </button>  
+                          <!-- <button class="btn-space"  mat-raised-button
+                          [routerLink]="['/basic-setup/update-aircraftname',this.airCraftNameId]"> Update
+                            <mat-icon class="col-white">Update</mat-icon>
+                          </button> -->
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div id="print-routine">
+              <table class="table table-bordered-v">
+                <thead>
+                  
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Book Category </th>
+                    <td>{{bookCategory}}</td>
+                    <th scope="row">Accession No</th>
+                    <td>{{accessionNo}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Book Title</th>
+                    <td>{{bookTitle}}</td>
+                    <th scope="row">Main Class</th>
+                    <td>{{mainClass}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Volume/Series</th>
+                    <td>{{volume}}</td>
+                    <th scope="row">Heading</th>
+                    <td>{{heading}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Call Number</th>
+                    <td>{{callNumber}}</td>
+                    <th scope="row">ISBN No</th>
+                    <td>{{isbnNo}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Language</th>
+                    <td>{{language}}</td>
+                    <th scope="row">Edition/Version</th>
+                    <td>{{edition}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Issuable</th>
+                    <td>{{issuable}}</td>
+                    <th scope="row">Page No</th>
+                    <td>{{pageNo}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Illustrations</th>
+                    <td>{{illustrations}}</td>
+                    <th scope="row">Notes</th>
+                    <td>{{notes}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Price</th>
+                    <td>{{price}}</td>
+                    <th scope="row">Shelf Name</th>
+                    <td>{{shelfName}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Row Name</th>
+                    <td>{{rowName}}</td>
+                    <th scope="row">Source</th>
+                    <td>{{source}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Accession Date</th>
+                    <td>{{accessionDate | date:'mediumDate'}}</td>
+                    <th scope="row">Useable Days</th>
+                    <td>{{useableDays}}</td>
+                  </tr>
+
+                  <tr>
+                    
+                    <th class="coverImage" scope="row">Cover Image</th>
+                    <td class="coverImage" > <img src={{coverImage}} /></td>
+                    <th class="coverImage" scope="row"></th>
+                    <td class="coverImage"></td>
+                  </tr>
+                </tbody>
+              </table>  
+              </div>        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

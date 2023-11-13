@@ -1,0 +1,233 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Damaged By Borrower</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form class="m-4" [formGroup]="DamageBbyBorrowerForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div *ngIf="role == userRole.SuperAdmin" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Library Name </mat-label>
+                      <mat-select formControlName="baseSchoolNameId" required >
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>PNo </mat-label>                        
+                        <input formControlName="pno" required matInput type="text" [matAutocomplete]="auto1" />
+                        <mat-autocomplete #auto1="matAutocomplete" >
+                          <mat-option  *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onPnoSelectionChanged(item)">
+                            {{item.text}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="DamageBbyBorrowerForm.get('pno').hasError('required')">
+                          PNo  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="b-t-8"> Member Name : <span class="c-color">{{memberName}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="b-t-8"> Designation : <span class="c-color">{{designation}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="b-t-8">Library Name : <span class="c-color">{{department}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="b-t-8">Mobile (Personal) : <span class="c-color">{{mobileNoPersonal}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Accession No </mat-label>                        
+                        <input formControlName="accessionNo" required matInput type="text" [matAutocomplete]="auto" />
+                        <mat-autocomplete #auto="matAutocomplete" >
+                          <mat-option  *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onAccessionNoSelectionChanged(item)">
+                            {{item.text}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="DamageBbyBorrowerForm.get('accessionNo').hasError('required')">
+                          Accession No  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="b-t-8"> Title(English) : <span class="c-color">{{bookTitleEnglish}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="b-t-8"> Title(Bangla) : <span class="c-color">{{bookTitleBangla}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <h5 class="b-t-8">Price : <span class="c-color">{{price}}</span> </h5>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Shelf Name</mat-label>                        
+                        <mat-select formControlName="shelfInfoId" required (selectionChange)="onShelfNameelectionChangeGetRowName($event.value)">
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedShelfInfo" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="DamageBbyBorrowerForm.get('shelfInfoId').hasError('required')">
+                          Shelf Name  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Row Name</mat-label>                        
+                        <mat-select formControlName="rowInfoId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedRowInfo" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="DamageBbyBorrowerForm.get('rowInfoId').hasError('required')">
+                          Row Name  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2 radio-field">
+                    <div class="row">
+                      <mat-label>Lost/Damage</mat-label>
+                    </div>
+                    <div class="radio-btn row">
+                      <mat-radio-group formControlName="isDamage">
+                        <mat-radio-button class="example-margin"  value="Y" >Yes</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="N" >No</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                  
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Press Name</mat-label>
+                      <input matInput formControlName="pressName" required>
+                      <mat-error *ngIf="DamageBbyBorrowerForm.get('pressName').hasError('required')">
+                        Press Name  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Press Number</mat-label>
+                      <input matInput formControlName="pressNumber">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Press Address</mat-label>
+                      <input matInput formControlName="pressAddress">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Press Email</mat-label>
+                      <input matInput formControlName="pressEmail">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Sender Officer</mat-label>
+                      <input matInput formControlName="senderOfficer" required>
+                      <mat-error *ngIf="DamageBbyBorrowerForm.get('senderOfficer').hasError('required')">
+                        Sender Officer  is Required!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Office Dispise Number</mat-label>
+                      <input matInput formControlName="officeDispiseNumber">
+                    </mat-form-field>
+                  </div> -->
+                  
+                </div>
+            
+            
+               
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!DamageBbyBorrowerForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <button type="button" mat-button routerLink="/book-management/damagedbyborrower-list">Cancel</button>
+                  </div>
+                </div>
+              </form>
+              <div *ngIf="isShown" class="row create-table db-tbl cls-rtn">
+                <h3 class="text-center table-title">Damage by Borrower List  </h3>
+                <div class="container">
+              <mat-table #table [dataSource]="damageBbyBorrowerList" matSort class="mat-cell">
+                 
+                <ng-container matColumnDef="sl">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Ser. </mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
+                </ng-container> 
+                <ng-container class="pr-an"  matColumnDef="issueDate">
+                  <mat-header-cell class="pr-an"  *matHeaderCellDef mat-sort-header> Issue Date </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.issueDate |date: 'dd MMM, yyyy'}} </mat-cell>
+                </ng-container>
+                <!-- <ng-container class="pr-c"  matColumnDef="pno">
+                  <mat-header-cell class="pr-c"  *matHeaderCellDef mat-sort-header> MemberName & PNo</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.pno}} </mat-cell>
+                </ng-container> -->
+                <ng-container class="pr-bt-d"  matColumnDef="returnDate">
+                  <mat-header-cell class="pr-bt-d"  *matHeaderCellDef mat-sort-header> Return Date </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.returnDate |date: 'dd MMM, yyyy'}} </mat-cell>
+                </ng-container>
+                
+                <!-- <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef class="pr-b">Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="pr-b">
+                    <button mat-icon-button color="accent" class="btn-tbl-edit"
+                    [routerLink]="['/book-management/update-damagedbyborrower', row.bookIssueAndSubmissionId]">
+                      <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                      (click)="deleteItem(row)">
+                      <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                    </button>
+                    
+                  </mat-cell>
+                </ng-container> -->
+              
+                
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns; "></mat-row>
+              </mat-table>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

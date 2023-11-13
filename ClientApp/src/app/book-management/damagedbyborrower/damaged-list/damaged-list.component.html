@@ -1,0 +1,165 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Damaged By Borrower</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Damaged By Borrower</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
+                    <div class="col-8">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h2>
+                            <strong></strong></h2>
+                        </li>
+  
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                        <li>
+                          <form [formGroup]="DamageForm" (ngSubmit)="onSubmit()">
+                            <div class="row">
+              
+              
+                              <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+              
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                  <mat-label>Flight Line/Squadron </mat-label>
+                                  <mat-select formControlName="departmentNameId" required >
+                                    <mat-option value="0">All</mat-option>
+                                    <mat-option (onSelectionChange)="onDepartmentNameSelectionChange($event)" *ngFor="let dropdown of selectedDepartmentName" [value]="dropdown.value">
+                                      {{dropdown.text}}
+                                    </mat-option>
+                                  </mat-select>
+                                  <mat-error *ngIf="DamageForm.get('departmentNameId').hasError('required')">
+                                    Flight Line/Squadron is Required!
+                                  </mat-error>
+                                </mat-form-field>
+                              </div> -->
+                              
+              
+                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                  <mat-label> Date From</mat-label>
+                                  <input matInput [matDatepicker]="frompicker" formControlName="dateFrom">
+                                  <mat-datepicker-toggle matSuffix [for]="frompicker"></mat-datepicker-toggle>
+                                  <mat-datepicker #frompicker></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                                  <mat-label> Date To</mat-label>
+                                  <input matInput [matDatepicker]="topicker" formControlName="dateTo">
+                                  <mat-datepicker-toggle matSuffix [for]="topicker"></mat-datepicker-toggle>
+                                  <mat-datepicker #topicker></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
+                                <button class="btn-space" [disabled]="!DamageForm.valid " mat-raised-button
+                                  color="primary">Search</button>
+              
+                              </div>
+                              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2"></div>
+                            </div>
+                            
+                          </form>
+                        </li>
+                 
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                            <mat-icon class="col-white">print</mat-icon>
+                          </button> 
+                        </li>
+                        <li>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="print-routine">
+                  <table class="tblinterserviceList">
+                    <thead>
+                      <tr>
+                        <th class="th-cell-ser">Ser:</th>
+                        <th class="th-cell-accessionno">Accession No</th>
+                        <th class="th-cell-durationform">Name & PNo</th>
+                        <th class="th-cell-durationform">Book Title</th>
+                        <th class="th-cell-durationform">Damage Date</th>
+                        <th class="th-cell-durationform">Fine Amount</th>
+                        <th class="th-cell-durationform">Damage Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let number of this.damageByBorrowerList; let i = index">
+                          <td class="td-cell" scope="row"> {{i+1}}</td>  
+                          <td class="td-cell-accession-no">
+                            {{number.accessionNo}}
+                          </td>
+                          <td class="td-cell-membername">
+                            {{number.memberName+"   "}}<b>({{number.pno}})</b>
+                          </td>
+                          <td class="td-cell-booktitle">
+                            {{number.bookTitleName}} - {{number.titleBangla}}
+                          </td>
+                          <td class="td-cell">
+                            {{number.borrowerDamageDate | date:'mediumDate'}} 
+                          </td>
+                          <td class="td-cell">
+                            {{number.borrowerDamageFineAmount}} 
+                          </td>
+                          <td  class="td-cell">
+                            <sapn *ngIf="number.damageStatus ==0">Authority</sapn>
+                            <sapn *ngIf="number.damageStatus ==1">Member</sapn>
+                          </td>
+                          <!-- <td *ngIf="damageStatus == 1" class="td-cell">
+                            Member
+                          </td> -->
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+   

@@ -1,0 +1,144 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a *ngIf="profileStatus" href="#" onClick="return false;">{{pageTitle}}</a>
+              <a *ngIf="!profileStatus" href="#" onClick="return false;">Member Information Details</a>
+              <!-- <a href="#" onClick="return false;">Member Information Details</a> -->
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+
+            <div class="responsive_table">
+              <div class="materialTableHeader">
+                <div class="row"> 
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h4 *ngIf="profileStatus">{{pageTitle}}</h4>
+                        <h4 *ngIf="!profileStatus">Member Information Details</h4>
+                        <!-- <h4>Member Information Details</h4> -->
+                      </li>
+                    </ul> 
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button  *ngIf="!profileStatus" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/member-management/add-memberinfo']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>
+                          <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                            <mat-icon class="col-white">print</mat-icon>
+                          </button>  
+                          <!-- <button class="btn-space"  mat-raised-button
+                          [routerLink]="['/basic-setup/update-aircraftname',this.airCraftNameId]"> Update
+                            <mat-icon class="col-white">Update</mat-icon>
+                          </button> -->
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div id="print-routine">
+              <table class="table table-bordered-v">
+                <thead>
+                  
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Member Category </th>
+                    <td>{{memberCategory}}</td>
+                    <th scope="row">P/O No</th>
+                    <td>{{pno}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Region</th>
+                    <td>{{region}}</td>
+                    <th scope="row">Office/Department</th>
+                    <td>{{director}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Email</th>
+                    <td>{{email}}</td>
+                    <th scope="row">Member's Name</th>
+                    <td>{{memberName}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Father's Name</th>
+                    <td>{{fatherName}}</td>
+                    <th scope="row">Mother's Name</th>
+                    <td>{{motherName}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Present Address</th>
+                    <td>{{presentAddress}}</td>
+                    <th scope="row">Permanent Address</th>
+                    <td>{{permanentAddress}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">OfficeId or NID</th>
+                    <td>{{nid}}</td>
+                    <th scope="row">Sex</th>
+                    <td>{{sex}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">First Join Date</th>
+                    <td>{{issueDate | date:'mediumDate'}}</td>
+                    <th scope="row">Designation</th>
+                    <td>{{designation}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Rank</th>
+                    <td>{{rank}}</td>
+                    <th scope="row">Membership Date</th>
+                    <td>{{memberShipDate | date:'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"> Expire Date</th>
+                    <td>{{memberExpireDate}}</td>
+                    <th scope="row">Membership No</th>
+                    <td>{{memberShipNumber}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mobile No (Office)</th>
+                    <td>{{mobileNoOffice}}</td>
+                    <th scope="row">Family Contact</th>
+                    <td>{{familyContact}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mobile No (Personal)</th>
+                    <td>{{mobileNoPersonal}}</td>
+                    <th class="imageUrl" scope="row"> Image</th>
+                    <td class="imageUrl" > <img src={{imageUrl}} /></td>
+                  </tr>
+                  <tr>
+                    
+                    
+                  </tr>
+                </tbody>
+              </table> 
+            </div>         
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

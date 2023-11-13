@@ -1,0 +1,232 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">Barcode By Book List</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Book Information</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">                    
+                    <div class="col-3">
+                      <ul *ngIf="role != userRole.Admin" class="header-buttons-left ml-0">
+                        <li  class="dropdown">                          
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Library Name </mat-label>
+                            <mat-select [(ngModel)]="deptId"  >
+                              <mat-option  value="0">--Select--</mat-option >
+                              <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                                {{dropdown.text}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </li>
+  
+                        <!-- <li class="dropdown">
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Book Category</mat-label>                        
+                            <mat-select [(ngModel)]="bookCatId"  >
+                              <mat-option  value="0">--Select--</mat-option >
+                                <mat-option *ngFor="let dropdown of selectedBookCategory" [value]="dropdown.value">
+                                    {{dropdown.text}} 
+                                  </mat-option>                          
+                            </mat-select>
+                          </mat-form-field>
+                        </li>-->
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText,deptId,bookCatId)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li> 
+                      </ul>
+                      
+                    </div>
+                    <div class="col-3">
+                      <ul class="header-buttons">
+                        <!-- <li *ngIf="role == userRole.SuperAdmin">
+                        <div class="icon-button-demo">
+                          <button class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/admin/dashboard/main']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>
+                         
+                        </div>
+                      </li> -->
+                      <!-- <li *ngIf="role == userRole.Member">
+                        <div class="icon-button-demo">
+                          <button class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/admin/dashboard/memberdashboard']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>
+                        </div>
+                      </li> -->
+                        <li>
+                          <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                            <mat-icon class="col-white">print</mat-icon>
+                          </button>  
+                          <!-- <button *ngIf="this.role == userRole.Admin" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/admin/dashboard/main']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                        </button>      -->
+                        <button  class="btn-space"  mat-raised-button color="warn" (click)="backClicked()"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                        </button> 
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="print-routine">
+
+                  <div class="row barcode-float">
+                    <div *ngFor="let number of bookInformationListSearch; let i = index" class="col-lg-2 col-md-2 col-sm-6 col-xs-12 mb-0">
+                      <div class="barcode-inner">
+                        <span class="accession-no">{{ number.mergeId }}</span>
+                        <hr class="line">
+                        <span class="barcode">
+                          <ngx-barcode class="print-barcode-design" width="140px" height="98px" [bc-value]="number.mergeId" [bc-display-value]="false" ></ngx-barcode>
+                        </span>
+                      </div>
+                      <!-- <table>
+                        <tr>
+                          <td>{{i+1}}</td>
+                          <td class="ac-no">{{ number.mergeId }}</td>
+                          <td class="cl-bookname">{{ number.bookTitleName }} {{ number.titleBangla }}</td>
+                          
+                          <td>
+                            <div id="print-barcode">
+                              <ngx-barcode class="print-barcode-design" width="140px" height="98px" [bc-value]="number.mergeId" [bc-display-value]="false" ></ngx-barcode>
+                            </div>
+                          </td>
+                          
+                        </tr>
+                      </table> -->
+                    </div>
+                  </div>
+                  <!-- <table class="table tbl-by-group db-li-s-in db-book-info book-barcode">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk">
+                          <h5>Ser: </h5>
+                        </th>
+                        <th class="cl-partno-ac"><h5>Accession No</h5></th>
+                        <th class="cl-bookname"><h5>Book Title</h5></th>
+                        <th class="cl-itemname"><h5>Barcode</h5></th>                   
+  
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let number of bookInformationListSearch; let i = index">
+                          <td>{{i+1}}</td>
+                          <td class="ac-no">{{ number.mergeId }}</td>
+                          <td class="cl-bookname">{{ number.bookTitleName }} {{ number.titleBangla }}</td>
+                          
+                          <td>
+                            <div id="print-barcode">
+                              <ngx-barcode class="print-barcode-design" width="140px" height="98px" [bc-value]="number.mergeId" [bc-display-value]="false" ></ngx-barcode>
+                            </div>
+                          </td>
+                          
+                        </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="overlay" *ngIf="message">
+    <div class="popup">
+      <h1 class="warning message">Warning!</h1> 
+      <a class="close" (click)="message = false">&times;</a>
+      <div class="content">
+        <div id="print-barcode">
+          <h2 class="content-message">You already request this book</h2>
+          <!-- <ngx-barcode class="print-barcode-design" [bc-value]="this.barcodeId" [bc-display-value]="false" ></ngx-barcode> -->
+        </div>
+        <!-- <button class="btn-space" mat-raised-button color="primary" (click)="printBarcodeSingle()" >
+          <mat-icon class="col-white">print</mat-icon>
+        </button> -->
+      </div>
+    </div>
+  </div>
+  
+  <div class="overlay" *ngIf="barcodePopup">
+    <div class="popup">
+      <h2>Barcode</h2> 
+      <a class="close" (click)="barcodePopup = false">&times;</a>
+      <div class="content">
+        <div id="print-barcode">
+          <ngx-barcode class="print-barcode-design" [bc-value]="this.barcodeId" [bc-display-value]="false" ></ngx-barcode>
+        </div>
+        <button class="btn-space" mat-raised-button color="primary" (click)="printBarcodeSingle()" >
+          <mat-icon class="col-white">print</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="overlay" *ngIf="userInfoPopup">
+    <div class="popup member-info">
+      <h2>Member Information</h2> 
+      <a class="close" (click)="userInfoPopup = false">&times;</a>
+      <div class="content">
+        <div class="responsive_table">
+          <table class="table tbl-by-group db-li-s-in db-book-info">
+            <thead>
+              <tr>
+                <th class="cl-member"><h5>PNo & Name</h5></th>
+                <th class="cl-partno"><h5>Issued Date</h5></th>
+                <th class="cl-itemname"><h5>Return Date</h5></th>              
+                <th class="cl-itemname"><h5>Contact No</h5></th>              
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let number of this.issuedUserInfo let i = index">
+                  <td class="cl-member">{{number.pno}} - {{number.memberName}}</td>
+                  <td class="ac-no">{{ number.issueDate | date:'dd/MMM/yyyy' }}</td>
+                  <td>{{ number.returnDate | date:'dd/MMM/yyyy'}}</td>
+                  <td>{{ number.mobileNoPersonal }}</td>
+                </tr>
+            </tbody>
+          </table>
+          <mat-paginator [length]="paging.length" [showFirstLastButtons]="masterData.paging.showFirstLastButtons"
+          [pageSize]="paging.pageSize" [pageSizeOptions]="masterData.paging.pageSizeOptions"
+          (page)="pageChanged($event)">
+          </mat-paginator>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
+   

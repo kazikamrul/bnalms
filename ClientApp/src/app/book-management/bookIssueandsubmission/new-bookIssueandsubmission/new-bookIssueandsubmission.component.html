@@ -1,0 +1,407 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Book Issue</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form class="m-4 book-issue-form" [formGroup]="BookIssueAndSubmissionForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div *ngIf="role == userRole.SuperAdmin" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Library Name </mat-label>
+                        <mat-select formControlName="baseSchoolNameId" required >
+                          <mat-option  value="0">--Select--</mat-option >
+                          <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                            {{dropdown.text}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 data-box left-box">
+                    <div class="row">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                        <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>P/O No </mat-label>                        
+                            <input formControlName="pno" matInput type="text" [matAutocomplete]="auto1" />
+                            <mat-autocomplete #auto1="matAutocomplete" >
+                              <mat-option  *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onPnoSelectionChanged(item)">
+                                {{item.text}}
+                              </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                        <table class="col-12 " *ngIf="memberInfo">
+                          <tr>
+                            <th class="levelcl">Rank & Name</th>
+                            <td class="levelcl">: {{this.rank }} - {{this.memberName }}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Type of Member</th>
+                            <td class="levelcl">: {{this.designation }}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Membership No</th>
+                            <td class="levelcl">: {{this.memberShipNumber }} </td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Membership Date</th>
+                            <td class="levelcl">: {{this.memberShipDate | date:'mediumDate'}} </td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Expire Date</th>
+                            <td class="levelcl">: {{this.memberExpireDate | date:'mediumDate'}} </td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Mobile No</th>
+                            <td class="levelcl">: {{this.mobileNoPersonal }}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Email</th>
+                            <td class="levelcl">: {{this.email }}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Last Payment Date</th>
+                            <td class="levelcl">: {{this.paymentDate | date:'mediumDate'}}</td>
+                          </tr>
+                          <!-- <tr>
+                            <th class="levelcl">Expire Date</th>
+                            <td class="levelcl">: {{this.expireDate | date:'mediumDate'}} </td>
+                          </tr> -->
+                          <tr>
+                            <th class="levelcl">Total No of Issued</th>
+                            <td class="levelcl">: <span class="span-clickable" (click)="getIssueRequestPopup(1)">{{issuedBookListLength}}</span></td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Total No of Online Request</th>
+                            <td class="levelcl">: <span class="span-clickable" (click)="getOnlineRequestPopup()">{{onlineBookRequestCount }}</span></td>
+                          </tr>
+                        </table>
+                      </div>
+                      
+                    </div>
+                    
+
+                  </div>
+                  
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  mb-2 data-box right-box">
+                    <div class="row">
+                      <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Accession No </mat-label>                        
+                            <input formControlName="accessionNo"  matInput type="text" [matAutocomplete]="auto2" />
+                            <mat-autocomplete #auto2="matAutocomplete" >
+                              <mat-option  *ngFor="let item of filteredOptions" [value]="item" (onSelectionChange)="onAccessionNoSelectionChanged(item)">
+                                {{item.text}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="BookIssueAndSubmissionForm.get('accessionNo').hasError('required')">
+                              Accession No  is Required!
+                            </mat-error>
+                        </mat-form-field>
+                        <p *ngIf="!reqIsExist" style="color:red;">This book Has Been Requested by Members</p>
+                      </div>
+                  
+                      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+                        <span *ngIf="reqIsExist"  class="btn-space custom datatable" (click)="insertBookInfoByAssessionNo()"><i class="fa fa-plus"></i></span> 
+                        <span   class="btn-space custom datatable" (click)="getPopup()"><i class="fa fa-table"></i></span> 
+                      </div>
+                      
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                        <table class="col-12 " *ngIf="bookInfo">
+                          <tr>
+                            <th class="levelcl">Title(English)</th>
+                            <td class="levelcl">: {{this.bookTitleEnglish}}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Title(Bangla)</th>
+                            <td class="levelcl">: {{this.bookTitleBangla}}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Category</th>
+                            <td class="levelcl">: {{this.bookCategory}}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Edition</th>
+                            <td class="levelcl">: {{this.edition}}</td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Shelf Name</th>
+                            <td class="levelcl">: {{this.shelfName}} </td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Row Name</th>
+                            <td class="levelcl">: {{this.rowName}} </td>
+                          </tr>
+                          
+                          <tr>
+                            <th class="levelcl">Usable Days</th>
+                            <td class="levelcl">: {{this.usableDays}} </td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Issuable</th>
+                            <td class="levelcl">: 
+                              <!-- {{this.issuable}}  -->
+                              <span *ngIf="issuable == 0" style="color: red;">Not Issuable</span>
+                              <span *ngIf="issuable == 1">Issuable</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th class="levelcl">Online Request</th>
+                            <td class="levelcl">: <span class="span-clickable" (click)="getIssueRequestPopup(2)">{{onlineRequest}}</span> </td>
+                          </tr>
+                        </table>
+                      </div>
+
+                      <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                        <h3 class="levelcl">Online Request : <span class="span-clickable" (click)="getIssueRequestPopup()">{{onlineRequest}}</span> </h3>
+                      </div> -->
+                      <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                        <h3 class="levelcl">Language :{{this.language}}</h3>
+                      </div> -->
+                    </div>
+                    
+                  </div>
+
+                  
+                  
+                </div>
+            
+            
+               
+                
+                <!-- <button type="button" (click)="addItem()">Add Item</button> -->
+                <div *ngIf="isShown" class="body table-responsive">
+                  <table class="table ex-mrk-entry book-issue">
+                    <thead>
+                      <tr>
+                        <th class="cl-srl"><h5>Ser</h5></th>
+                        <th class="cl-nm-rnk"><h5>Accession No</h5></th>
+                        <th class="cl-nm-rnk"><h5>Book title</h5></th>
+                        <th class="cl-mrk"><h5>Issue Date</h5></th>
+                        <th class="cl-mrk-rmrk"><h5>Return Date</h5></th>
+                        <th class="cl-mrk-rmrk"><h5>remove</h5></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let unit of BookIssueAndSubmissionForm.get('issueListForm')['controls']; let i = index" [formGroup]="unit">
+                        <th class="cl-srl" scope="row">{{i+1}}</th>
+
+                        <td  class="cl-nm-rnk"> 
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <input matInput  type="text" formControlName="accessionNo" />
+                          </mat-form-field>
+                        </td>
+                        
+                        <td class="cl-mrk">
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <input matInput  type="text" formControlName="bookTitle" />
+                          </mat-form-field>
+                        </td>
+                        
+                        <td class="cl-mrk">
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <input matInput  type="text" formControlName="issueDate" />
+                          </mat-form-field> -->
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Issue Date </mat-label>
+                              <input matInput [matDatepicker]="issuepicker" formControlName="issueDate" >
+                              <mat-datepicker-toggle matSuffix [for]="issuepicker"></mat-datepicker-toggle>
+                             <mat-datepicker #issuepicker></mat-datepicker>                                            
+                          </mat-form-field>
+                        </td>
+
+                        <td  class="cl-nm-rnk"> 
+                          <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <input matInput  type="text" formControlName="returnDate" />
+                          </mat-form-field> -->
+                          <mat-form-field class="example-full-width mb-3" appearance="outline">
+                            <mat-label>Return Date </mat-label>
+                              <input matInput [matDatepicker]="returnpicker" formControlName="returnDate" >
+                              <mat-datepicker-toggle matSuffix [for]="returnpicker"></mat-datepicker-toggle>
+                             <mat-datepicker #returnpicker></mat-datepicker>                                            
+                          </mat-form-field>
+                        </td>
+                        <td  class="cl-nm-rnk"> 
+                          <button type="button" (click)="clearList(i)">Remove</button>
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!BookIssueAndSubmissionForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <button type="button" mat-button routerLink="/book-management/bookissueandsubmission-list">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="overlay" *ngIf="popup">
+    <div class="popup">
+      <h2>Book Categories List</h2>
+      <a class="close" (click)="popup = false">&times;</a>
+      <div class="content">
+        <!-- you have selected this event -->
+        <table class="table tbl-by-group db-li-s-in">
+          <thead>
+            <tr>
+              <th class="cl-nm-rnk"><h5>Ser</h5></th>
+              <th class="cl-mrk"><h5>Book Category</h5></th>
+              <th class="cl-mrk-rmrk"><h5>Extension</h5></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container>
+              <tr *ngFor="let number of bookCategoriesList; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ number.bookCategoryName }}</td>
+                <td>{{ number.bookCategoryId }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="overlay" *ngIf="popupIssueRequest">
+    <div class="popup book-issue-info">
+      <h2>{{infoPopUpTitle}}</h2>
+      <a class="close" (click)="popupIssueRequest = false">&times;</a>
+      <div class="content">
+        <!-- you have selected this event -->
+        <div class="responsive_table">
+          <table *ngIf="requestedmembersList" class="table tbl-by-group db-li-s-in db-user-info">
+            <thead>
+              <tr>
+                <th class="cl-ser"> <h5>Online Booking </h5> </th>
+                <!-- <th class="cl-partno-ac"><h5>Accession No</h5></th> -->
+                <th class="cl-book"><h5>Book Title</h5></th>
+                <th class="cl-member"><h5>Requested Member</h5></th>
+                <th class="cl-member"><h5>Requested Date</h5></th>
+  
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let number of this.issueRequestUserList; let i = index">
+                  <td class="cl-ser"> {{i+1}} </td>
+                  <td class="cl-book"> {{ number.bookInformation }} </td>
+                  <td class="cl-member"> {{ number.memberInfo }} </td>
+                  <td class="cl-member"> {{ number.requestDate | date: "dd/MMM/yyyy" }} </td>
+                  
+                </tr>
+              <!-- </ng-container> -->
+            </tbody>
+          </table>
+
+          <table *ngIf="issuedBooksList" class="table tbl-by-group db-li-s-in db-user-info">
+            <thead>
+              <tr>
+                <th class="cl-mrk-rmrk"><h5>Accession No</h5></th>
+                <th class="booktitle-issue"><h5>Book Title</h5></th>
+                <th class="cl-mrk-rmrk"><h5>Issue Date</h5></th>
+                <th class="cl-mrk-rmrk"><h5>Return Date</h5></th>
+                <th class="cl-mrk-rmrk"><h5>Due</h5></th>
+                
+              </tr>
+            </thead>
+            <tbody>              
+              <ng-container>
+                  <tr *ngFor="let number of issuedBookList">
+                    <td>{{ number.accessionNo }}</td>
+                    <td class="booktitle-issue">{{ number.bookTitle }}</td>
+                    <td>{{ number.issueDate | date: "dd/MMM/yyyy" }}</td>
+                    <td>{{ number.returnDate | date: "dd/MMM/yyyy" }}</td>
+                    <td>
+                      <span *ngIf="getDueDays(number.returnDate) > 0">{{getDueDays(number.returnDate)}}</span>
+                    </td>
+                  </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" *ngIf="popupOnlineRequest">
+    <div class="popup member-info requested-book">
+      <h2>Online Book Request List</h2>
+      <a class="close" (click)="popupOnlineRequest = false">&times;</a>
+      <div class="content">
+        <div class="responsive_table">
+          <table class="table tbl-by-group db-li-s-in db-user-info">
+            <thead>
+              <tr>
+                <th class="cl-ser"> <h5>Ser :</h5> </th>
+                <th class="cl-book"><h5>Book Title</h5></th>
+                <th class="cl-member"><h5>Accession No</h5></th>
+                <th class="cl-member"><h5>Request Date</h5></th>
+                <th class="cl-member"><h5>Booking Serial</h5></th>
+                <th class="cl-member"><h5>Status</h5></th>
+                <th class="cl-member"><h5>Issue</h5></th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let number of this.onlineRequestByMemberAndLibrary; let i = index">
+                  <td class="cl-ser"> {{i+1}} </td>
+                  <td class="cl-book"> {{ number.bookTitleName }} {{ "      "+number.titleBangla }}</td>
+                  <td class="cl-member"> {{ number.accessionNo }} </td>
+                  <td class="cl-member"> {{ number.requestDate | date:'mediumDate' }} </td>
+                  <td class="cl-member"> {{ number.requestStatus }} </td>
+                  <td class="cl-itemnames">
+                    <div *ngIf="number.issueStatus === 0">
+                      <span class="att-completed">Available</span>
+                    </div>
+                    <div *ngIf="number.issueStatus === 1">
+                      <span class="att-due clickable">Issued</span>
+                    </div>
+                  </td>
+                  <td class="cl-member"> 
+                    <button *ngIf="number.issueStatus === 0" mat-icon-button color="accent" title="Issued" class="btn-tbl-delete" (click)="IssuedForMember(number)">
+                      <mat-icon>cached</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  

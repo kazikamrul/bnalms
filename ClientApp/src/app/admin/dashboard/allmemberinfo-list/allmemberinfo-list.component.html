@@ -1,0 +1,149 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{PageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <!-- <a routerLink="/admin/dashboard/main"><i class="fas fa-home"></i></a> -->
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;"> {{PageTitle}}</a>
+              </li>
+              <li class="breadcrumb-item active">All</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader"> 
+                  <div class="row">
+                    <div class="col-4">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown">
+                          <h3></h3>
+                        </li>
+                        <li class="dropdown">
+                          <input placeholder="Search" type="text" [(ngModel)]="searchText"  #filter class="browser-default search-field"
+                          aria-label="Search box">
+                        </li>
+                        <li> 
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="accent" (click)="applyFilter(searchText)">
+                              <mat-icon class="col-white">search</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons-left ml-0">
+                        <li>
+                          <div class="icon-button-demo">
+                          
+                            <button class="btn-space" mat-raised-button color="primary" (click)="getAllMemberInfoListSpRequest(0)">
+                              <!-- <mat-icon class="col-white">print</mat-icon> -->
+                              All Members
+                            </button>  
+                            <button class="btn-space"  mat-raised-button color="warn" (click)="getAllMemberInfoListSpRequest(1)"> 
+                              <!-- <mat-icon class="col-white">print</mat-icon> -->
+                              Own Members
+                            </button>          
+                                               
+                          </div>
+                        </li> 
+                        
+                      </ul>
+                    </div>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                          
+                            <button class="btn-space" mat-raised-button color="primary" (click)="printSingle()">
+                              <mat-icon class="col-white">print</mat-icon>
+                            </button>          
+                            <button  class="btn-space"  mat-raised-button color="warn" (click)="backClicked()"> 
+                              <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                            </button>    
+                          <!-- <button *ngIf="role ==userRole.User" class="btn-space"  mat-raised-button
+                            color="warn" [routerLink]="['/admin/dashboard/user-dashboard']"> 
+                            <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                          </button>   
+                          <button *ngIf="role ==userRole.Admin" class="btn-space"  mat-raised-button
+                          color="warn" [routerLink]="['/admin/dashboard/main']"> 
+                          <mat-icon class="col-white">keyboard_backspace</mat-icon> Back
+                        </button>                     -->
+                          </div>
+                        </li>                        
+                      </ul>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">        
+                    
+                
+                        <div id="print-routine">
+                          <table class="tblinterserviceList">
+                            <thead>
+                              <tr>
+                                <th class="th-cell-ser">Ser:</th>
+                                <th class="th-cell-course">P No</th>
+                                <th class="th-cell-durationform">Member Name</th>
+                                <th class="th-cell-durationform">Father Name</th>
+                                <th class="th-cell-course">Mobile No(Personal)</th>
+                                <th class="th-cell-course">Director/Est.</th>
+                                <th class="th-cell-issuedb">Issued Book</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let number of this.allMemberInfoList; let i = index">
+                                  <td class="td-cell" scope="row"> {{i+1}}</td>   
+                                  <td class="td-cell">
+                                    {{number.pno}}
+                                  </td>
+                                
+                                  <td class="td-cell">
+                                    {{number.memberName}}
+                                  </td>
+                                  <td class="td-cell">
+                                    {{number.fatherName}} 
+                                  </td>
+                                  <td class="td-cell">
+                                    {{number.mobileNoPersonal}}
+                                  </td>
+                                  <td class="td-cell">
+                                    {{number.director}}
+                                  </td>
+                                  <td class="td-cell">
+                                    <a class="issuedb" [routerLink]="['/admin/dashboard/bookIssuedformemberinfo-list',number.memberInfoId]">{{number.issuedBook}}</a>
+                                  </td>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+   
+

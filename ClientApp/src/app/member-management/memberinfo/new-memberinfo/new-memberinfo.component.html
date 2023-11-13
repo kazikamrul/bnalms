@@ -1,0 +1,425 @@
+<section class="content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{pageTitle}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <a routerLink="/admin/dashboard/main">
+                  <i class="fas fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item bcrumb-2">
+                <a href="#" onClick="return false;">Member Info</a>
+              </li>
+              <li class="breadcrumb-item active">{{destination}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <form class="m-4" [formGroup]="MemberInfoForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div *ngIf="role == userRole.SuperAdmin" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Library Name </mat-label>
+                      <mat-select formControlName="baseSchoolNameId" required (selectionChange)="getMemberInfoListByDepartment()">
+                        <mat-option  value="0">--Select--</mat-option >
+                        <mat-option  *ngFor="let dropdown of departmentName" [value]="dropdown.value">
+                          {{dropdown.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div *ngIf="role == userRole.SuperAdmin" class="col-xl-9 col-lg-9 col-md-9 col-sm-12 mb-2"></div> -->
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Member Category</mat-label>                        
+                        <mat-select formControlName="memberCategoryId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedMemberCategory" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="MemberInfoForm.get('memberCategoryId').hasError('required')">
+                          Category  is Required!
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> P/O No</mat-label>
+                      <input matInput formControlName="pno" required>
+                      <mat-error *ngIf="MemberInfoForm.get('pno').hasError('required')">
+                        P/O No is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Member's Name</mat-label>
+                      <input matInput formControlName="memberName" required>
+                      <mat-error *ngIf="MemberInfoForm.get('memberName').hasError('required')">
+                        Member's Name is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Membership Date</mat-label>
+                        <input matInput [matDatepicker]="dicker" formControlName="memberShipDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="dicker"></mat-datepicker-toggle>
+                       <mat-datepicker #dicker></mat-datepicker>    
+                       <mat-error *ngIf="MemberInfoForm.get('memberShipDate').hasError('required')">
+                        Membership Date is required
+                      </mat-error>                                        
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Membership Ex Date</mat-label>
+                        <input matInput [matDatepicker]="epicker" formControlName="memberExpireDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+                       <mat-datepicker #epicker></mat-datepicker>   
+                       <mat-error *ngIf="MemberInfoForm.get('memberExpireDate').hasError('required')">
+                        Membership Ex Date is required
+                      </mat-error>                                           
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Membership Number</mat-label>
+                      <input matInput formControlName="memberShipNumber" required>
+                      <mat-error *ngIf="MemberInfoForm.get('memberShipNumber').hasError('required')">
+                        Memberhip Number is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Job Status</mat-label>                        
+                        <mat-select formControlName="jobStatusId" >
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedJobStatus" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Type of Member</mat-label>                        
+                        <mat-select formControlName="designationId" required (selectionChange)="getselectedRank()">
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedDesignation" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="MemberInfoForm.get('designationId').hasError('required')">
+                          Designation is required
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Rank</mat-label>                        
+                        <mat-select formControlName="rankId" required>
+                          <mat-option  value="0">--Select--</mat-option >
+                            <mat-option *ngFor="let dropdown of selectedRank" [value]="dropdown.value">
+                                {{dropdown.text}} 
+                              </mat-option>                          
+                        </mat-select>
+                        <mat-error *ngIf="MemberInfoForm.get('rankId').hasError('required')">
+                          Rank is required
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Father's Name</mat-label>
+                      <input matInput formControlName="fatherName" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Mother's Name</mat-label>
+                      <input matInput formControlName="motherName" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Office Id or NID</mat-label>
+                      <input matInput formControlName="nid" >
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Member Identity</mat-label>
+                      <input matInput formControlName="memberInfoIdentity" required>
+                      <mat-error *ngIf="MemberInfoForm.get('memberInfoIdentity').hasError('required')">
+                        Membership NO is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div> -->
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Email</mat-label>
+                      <input matInput formControlName="email" >
+                    </mat-form-field>
+                  </div>
+                 
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Area/Region</mat-label>
+                      <input matInput formControlName="region" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Office/Department</mat-label>
+                      <input matInput formControlName="director" >
+                    </mat-form-field>
+                  </div>
+                  
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Yearly Fee</mat-label>
+                      <input matInput formControlName="yearlyFee" >
+                    </mat-form-field>
+                  </div> -->
+                  
+                 
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2 radio-field">
+                    <div class="row">
+                      <mat-label>Sex</mat-label>
+                    </div>
+                    <div class="radio-btn row">
+                      <mat-radio-group formControlName="sex">
+                        <mat-radio-button class="example-margin"  value="M" >Male</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="F" >Female</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>First Join Date</mat-label>
+                        <input matInput [matDatepicker]="jpicker" formControlName="issueDate" >
+                        <mat-datepicker-toggle matSuffix [for]="jpicker"></mat-datepicker-toggle>
+                       <mat-datepicker #jpicker></mat-datepicker>                                            
+                    </mat-form-field>
+                  </div> -->
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Expire Date</mat-label>
+                        <input matInput [matDatepicker]="epicker" formControlName="expireDate" >
+                        <mat-datepicker-toggle matSuffix [for]="epicker"></mat-datepicker-toggle>
+                       <mat-datepicker #epicker></mat-datepicker>                                            
+                    </mat-form-field>
+                  </div> -->
+                 
+                 
+                  
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Department</mat-label>
+                      <input matInput formControlName="department" >
+                    </mat-form-field>
+                  </div> -->
+                  
+                  <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> TNT (Office)</mat-label>
+                      <input matInput formControlName="tntOffice" >
+                    </mat-form-field>
+                  </div> -->
+                  
+                  
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Mobile No (Office)</mat-label>
+                      <input matInput formControlName="mobileNoOffice">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Family Contact</mat-label>
+                      <input matInput formControlName="familyContact">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Mobile No (Personal)</mat-label>
+                      <input matInput formControlName="mobileNoPersonal" required>
+                      <mat-error *ngIf="MemberInfoForm.get('pno').hasError('required')">
+                        Mobile No (Personal) is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Present Address</mat-label>
+                      <textarea matInput formControlName="presentAddress" required></textarea>
+                      <mat-error *ngIf="MemberInfoForm.get('presentAddress').hasError('required')">
+                        Present Address is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label> Permanent Address</mat-label>
+                      <textarea matInput formControlName="permanentAddress" > </textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Upload Image</mat-label>
+                      <ngx-mat-file-input (change)="onFileChanged($event)" accept=".jpg,.png,.gif,">
+                      </ngx-mat-file-input>
+                      <mat-icon matSuffix>attachment</mat-icon>
+                    </mat-form-field>
+                  </div>
+                </div>
+            
+            
+               
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <button class="btn-space" [disabled]="!MemberInfoForm.valid " mat-raised-button
+                      color="primary">{{buttonText}}</button>
+                    <!-- <button type="button" mat-button routerLink="/member-management/memberinfo-list">Cancel</button> -->
+                  </div>
+                </div>
+              </form>
+              <div *ngIf="isShown" class="row create-table db-tbl cls-rtn">
+                <h3 class="text-center table-title">Member Information List  </h3>
+                <div class="container">
+                  <table class="table tbl-by-group db-li-s-in db-book-info">
+                    <thead>
+                      <tr>
+                        <th class="cl-nm-rnk"><h5>Ser.</h5></th>
+                        <th class="cl-nm-rnk"><h5>Membership No</h5></th>
+                        <th class="cl-authorname"><h5>Rank, Name & P/O No</h5></th>
+                        <th class="cl-bookname"><h5>Office/Dep</h5></th>
+                        <th class="cl-itemname"><h5>Mobile No</h5></th>
+                        <th class="cl-itemname"><h5>Email</h5></th>
+                        <th class="cl-ex-d"><h5> Expire Date</h5></th>
+                        <th class="cl-itemname-img"><h5></h5></th>       
+                        <th class="cl-mrk-rmrk-act-ml"><h5>Actions</h5></th>                     
+  
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let number of this.memberInfoList let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{ number.memberShipNumber }}</td>
+                        <td><span>{{number.rank}}  {{number.memberName}} &nbsp; <b> (P/O No {{number.pno}})</b></span></td>
+                        <td class="cl-booktitle">{{ number.director }}</td>
+                        <td class="cl-mainclass">{{ number.mobileNoPersonal }}</td>
+                        <td>{{ number.email }}</td>
+                        <td class="cl-ex-d">{{ number.memberExpireDate | date:'mediumDate'}}</td>
+                        
+                        <td class="table-img  img-on-hover">
+                          <!-- <img  [src]="this.fileUrl+number.imageUrl"/>
+                          <div class="pop-on-hover">
+                            <img  [src]="this.fileUrl+number.imageUrl"/>
+                          </div> -->
+                          <img  [src]="number.imageUrl"/>
+                          <div class="pop-on-hover">
+                            <img  [src]="number.imageUrl"/>
+                          </div>
+                        </td>
+                        <td class="cl-mrk-rmrk-act-ml">
+                          <div fxLayout="row" fxLayoutGap="20px">
+                          <button mat-icon-button color="accent" class="btn-tbl-edit"
+                    [routerLink]="['/member-management/view-memberinfo',  number.memberInfoId]">
+                    <mat-icon aria-label="Edit" class="col-white">visibility</mat-icon>
+                  </button>
+                    <button mat-icon-button color="accent" class="btn-tbl-edit"
+                    [routerLink]="['/member-management/update-memberinfo', number.memberInfoId]">
+                      <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                      (click)="deleteItem(number)">
+                      <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                    </button>
+                    </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              <!-- <mat-table #table [dataSource]="memberInfoList" matSort class="mat-cell">
+                 
+                <ng-container matColumnDef="sl">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Ser. </mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i = index;"> {{ ((paging.pageIndex-1) *  paging.pageSize) + i+1}} </mat-cell>
+                </ng-container> 
+                <ng-container matColumnDef="memberName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Name & Rank  </mat-header-cell>
+                  <mat-cell *matCellDef="let element"><span>{{element.rank}}  {{element.memberName}} &nbsp; <b> (P/O No {{element.pno}})</b></span>  </mat-cell>
+                </ng-container>
+                <ng-container class="pr-d"  matColumnDef="director">
+                  <mat-header-cell class="pr-d"  *matHeaderCellDef mat-sort-header> Director/Est. </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.director}} </mat-cell>
+                </ng-container>
+                <ng-container class="pr-m" matColumnDef="mobileNoPersonal">
+                  <mat-header-cell class="pr-m" *matHeaderCellDef mat-sort-header> Mobile No </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.mobileNoPersonal}} </mat-cell>
+                </ng-container>
+                <ng-container class="pr-e"  matColumnDef="email">
+                  <mat-header-cell class="pr-e"  *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                </ng-container>
+                <ng-container class="pr-ed"  matColumnDef="expireDate">
+                  <mat-header-cell class="pr-ed"  *matHeaderCellDef mat-sort-header> Expire Date </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.expireDate | date:'mediumDate'}} </mat-cell>
+                </ng-container>
+                
+                <ng-container class="pr-iu"  matColumnDef="imageUrl">
+                  <mat-header-cell class="pr-iu"  mat-header-cell *matHeaderCellDef > 
+                  </mat-header-cell>
+                  <mat-cell mat-cell *matCellDef="let element" class="table-img-m  img-on-hover"> 
+                    <img  [src]="element.imageUrl" />
+                    <div class="pop-on-hover">
+                      <img [src]="element.imageUrl" />
+                    </div>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+
+                    <button mat-icon-button color="accent" class="btn-tbl-edit"
+                    [routerLink]="['/member-management/view-memberinfo',  row.memberInfoId]">
+                    <mat-icon aria-label="Edit" class="col-white">visibility</mat-icon>
+                  </button>
+                    <button mat-icon-button color="accent" class="btn-tbl-edit"
+                    [routerLink]="['/member-management/update-memberinfo', row.memberInfoId]">
+                      <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()"
+                      (click)="deleteItem(row)">
+                      <mat-icon aria-label="Delete" class="col-white">delete</mat-icon> 
+                    </button>
+                    
+                  </mat-cell>
+                </ng-container>
+              
+                
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns; "></mat-row>
+              </mat-table> -->
+            </div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
