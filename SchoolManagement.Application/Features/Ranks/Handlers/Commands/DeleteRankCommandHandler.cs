@@ -4,9 +4,6 @@ using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.Exceptions;
 using SchoolManagement.Application.Features.Ranks.Requests.Commands;
 using SchoolManagement.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

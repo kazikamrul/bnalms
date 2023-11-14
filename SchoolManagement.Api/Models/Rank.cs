@@ -7,22 +7,34 @@ namespace SchoolManagement.Api.Models
     {
         public Rank()
         {
-            MemberInfos = new HashSet<MemberInfo>();
-            MemberRegistrations = new HashSet<MemberRegistration>();
+            AllowanceCategoryFromRanks = new HashSet<AllowanceCategory>();
+            AllowanceCategoryToRanks = new HashSet<AllowanceCategory>();
+            AllowanceFromRanks = new HashSet<Allowance>();
+            AllowanceToRanks = new HashSet<Allowance>();
+            BnaSemesterDurations = new HashSet<BnaSemesterDuration>();
+            ParentRelatives = new HashSet<ParentRelative>();
+            TraineeBioDataGeneralInfos = new HashSet<TraineeBioDataGeneralInfo>();
+            TraineeNominations = new HashSet<TraineeNomination>();
         }
 
         public int RankId { get; set; }
-        public int? DesignationId { get; set; }
         public string RankName { get; set; }
+        public string Position { get; set; }
         public int? MenuPosition { get; set; }
+        public int CompleteStatus { get; set; }
         public string CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedDate { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual Designation Designation { get; set; }
-        public virtual ICollection<MemberInfo> MemberInfos { get; set; }
-        public virtual ICollection<MemberRegistration> MemberRegistrations { get; set; }
+        public virtual ICollection<AllowanceCategory> AllowanceCategoryFromRanks { get; set; }
+        public virtual ICollection<AllowanceCategory> AllowanceCategoryToRanks { get; set; }
+        public virtual ICollection<Allowance> AllowanceFromRanks { get; set; }
+        public virtual ICollection<Allowance> AllowanceToRanks { get; set; }
+        public virtual ICollection<BnaSemesterDuration> BnaSemesterDurations { get; set; }
+        public virtual ICollection<ParentRelative> ParentRelatives { get; set; }
+        public virtual ICollection<TraineeBioDataGeneralInfo> TraineeBioDataGeneralInfos { get; set; }
+        public virtual ICollection<TraineeNomination> TraineeNominations { get; set; }
     }
 }

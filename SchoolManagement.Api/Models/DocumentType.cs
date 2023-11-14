@@ -7,7 +7,7 @@ namespace SchoolManagement.Api.Models
     {
         public DocumentType()
         {
-            SoftCopyUploads = new HashSet<SoftCopyUpload>();
+            ReadingMaterials = new HashSet<ReadingMaterial>();
         }
 
         public int DocumentTypeId { get; set; }
@@ -20,6 +20,6 @@ namespace SchoolManagement.Api.Models
         public DateTime? LastModifiedDate { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual ICollection<SoftCopyUpload> SoftCopyUploads { get; set; }
+        public virtual ICollection<ReadingMaterial> ReadingMaterials { get; set; }
     }
 }

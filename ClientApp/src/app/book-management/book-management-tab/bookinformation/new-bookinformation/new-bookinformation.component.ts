@@ -312,6 +312,7 @@ GetDepartmentNameById(baseNameId){
    var mergeId = bookCategoryId + accessionNo;
 
    this.BookInformationForm.get('mergeId').setValue(mergeId);
+   this.BookInformationForm.get('accessionNo').setValue(parseInt(accessionNo));
 
     //this.BookInformationForm.get('baseSchoolNameId').setValue(this.branchId);
     console.log(this.BookInformationForm)
@@ -328,7 +329,6 @@ GetDepartmentNameById(baseNameId){
       console.log(id);
       this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This Item?').subscribe(result => {
         console.log(result);
-        console.log("hasan");
         if (result) {
           this.BookInformationService.update(id,formData).subscribe(response => {
           

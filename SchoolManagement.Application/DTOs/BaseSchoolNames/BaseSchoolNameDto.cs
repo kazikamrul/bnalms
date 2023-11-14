@@ -23,7 +23,7 @@
         public int? FourthLevel { get; set; }
         public int? FifthLevel { get; set; }
         public string? ServerName { get; set; }
-
+        public string? SchoolHistory { get; set; }
 
         public string? BaseName { get; set; }
 

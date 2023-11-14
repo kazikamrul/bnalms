@@ -4,8 +4,6 @@ using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.Bulletin;
 using SchoolManagement.Application.Features.Bulletins.Requests.Queries;
 using SchoolManagement.Domain;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.Bulletins.Handlers.Queries
 {
@@ -20,7 +18,8 @@ namespace SchoolManagement.Application.Features.Bulletins.Handlers.Queries
         }
         public async Task<BulletinDto> Handle(GetBulletinDetailRequest request, CancellationToken cancellationToken)
         {
-            var Bulletin = await _BulletinRepository.Get(request.BulletinId);
+            //var Bulletin = await _BulletinRepository.Get(request.BulletinId);
+            var Bulletin = _BulletinRepository.FinedOneInclude(x => x.BulletinId == request.BulletinId, "CourseName", "CourseDuration");
             return _mapper.Map<BulletinDto>(Bulletin);
         }
     }

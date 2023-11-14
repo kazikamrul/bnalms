@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using MediatR;
-using SchoolManagement.Application.Contracts.Persistence;
 using SchoolManagement.Application.DTOs.Bulletin.Validators;
-using SchoolManagement.Application.Features.Bulletins.Requests.Commands;
-using SchoolManagement.Application.Responses;
+using SchoolManagement.Application.Contracts.Persistence;
+using MediatR;
 using SchoolManagement.Domain;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using SchoolManagement.Application.Responses;
+using SchoolManagement.Application.Features.Bulletins.Requests.Commands;
 
 namespace SchoolManagement.Application.Features.Bulletins.Handlers.Commands
 {

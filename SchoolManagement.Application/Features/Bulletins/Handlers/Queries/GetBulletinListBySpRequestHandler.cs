@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.Features.Bulletins.Handlers.Queries
         public async Task<object> Handle(GetBulletinListBySpRequest request, CancellationToken cancellationToken)
         {
            // object obj = new object();
-            var spQuery = String.Format("exec [spGetBulletin] {0}", request.MemberInfoId);
+            var spQuery = String.Format("exec [spGetBulletin] {0}", request.BaseSchoolNameId);
             
             DataTable dataTable = _studentInfoByTraineeIdRepository.ExecWithSqlQuery(spQuery);
            

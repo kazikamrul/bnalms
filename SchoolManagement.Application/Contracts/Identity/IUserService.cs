@@ -16,12 +16,14 @@ namespace SchoolManagement.Application.Contracts.Identity
         Task<List<Employee>> GetEmployees();
         Task<BaseCommandResponse> UpdateUserPassword(string userId,PasswordChangeDto userDto); 
         Task<Employee> GetEmployeeByUserId(string userId);
-        Task<Employee> GetEmployee(string userId);
+        Task<Employee> GetEmployee(string userId); 
         Task<PagedResult<UserDto>> GetUsers(QueryParams queryParams);
         Task<BaseCommandResponse> Save(string userId,CreateUserDto user);
+        Task<BaseCommandResponse> UpdateUser(string userId, UpdateEmailPhoneDto user);
+        Task<BaseCommandResponse> ResetPassword(string userId,CreateUserDto user);
         Task<UserDto> GetUserById(string id);
-        Task<BaseCommandResponse> ResetPassword(string userId, CreateUserDto user);
         Task<BaseCommandResponse> DeleteUser(string id);
-        Task<PagedResult<UserDto>> GetMembershipUsers(QueryParams queryParams);
+        //Task<PagedResult<UserDto>> GetStudentUsers(QueryParams queryParams);
+        Task<PagedResult<UserDto>> GetTeacherUsers(QueryParams queryParams);
     }
 }

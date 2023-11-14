@@ -6,7 +6,12 @@ namespace SchoolManagement.Domain
     {
         public CourseType()
         {
-           
+            CourseDurations = new HashSet<CourseDuration>();
+            CourseNames = new HashSet<CourseName>();
+            CourseBudgetAllocations = new HashSet<CourseBudgetAllocation>();
+            Documents = new HashSet<Document>();
+            InterServiceMarks = new HashSet<InterServiceMark>();
+            BnaSubjectNames = new HashSet<BnaSubjectName>();
 
         }
 
@@ -15,6 +20,11 @@ namespace SchoolManagement.Domain
         public int? MenuPosition { get; set; }
         public bool IsActive { get; set; }
 
-       
+        public virtual ICollection<CourseDuration> CourseDurations { get; set; }
+        public virtual ICollection<CourseName> CourseNames { get; set; }
+        public virtual ICollection<Document> Documents { get; set; }
+        public virtual ICollection<InterServiceMark> InterServiceMarks { get; set; }
+        public virtual ICollection<BnaSubjectName> BnaSubjectNames { get; set; }
+        public virtual ICollection<CourseBudgetAllocation> CourseBudgetAllocations { get; set; }
     }
 }

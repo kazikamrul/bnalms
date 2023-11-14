@@ -22,8 +22,9 @@ namespace SchoolManagement.Application.Features.BaseSchoolNames.Handlers.Queries
 
         public async Task<object> Handle(GetCourseCountBySchoolFromSpRequest request, CancellationToken cancellationToken)
         {
+            DateTime Current = DateTime.Now;
 
-            var spQuery = String.Format("exec [spGetCourseCountBySchool]");
+            var spQuery = String.Format("exec [spGetCourseCountBySchool] '{0}'", Current);
 
             DataTable dataTable = _baseSchoolNameRepository.ExecWithSqlQuery(spQuery);
             return dataTable;

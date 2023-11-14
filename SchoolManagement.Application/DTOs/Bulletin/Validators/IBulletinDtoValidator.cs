@@ -1,16 +1,13 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
- 
+
 namespace SchoolManagement.Application.DTOs.Bulletin.Validators
-{
-    public class IBulletinDtoValidator : AbstractValidator<IBulletinDto>
+{ 
+    public class IBulletinDtoValidator: AbstractValidator<IBulletinDto>
     {
-        public IBulletinDtoValidator() 
+        public IBulletinDtoValidator()
         {
             RuleFor(b => b.BuletinDetails)
-                .NotEmpty().WithMessage("{PropertyName} is required.").MaximumLength(150).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
+                .NotEmpty().WithMessage("{Propertyname} is required.").MaximumLength(150).WithMessage("{Propertyname} must not exceed {ComparisonValue} characters.");
         }
     }
 }

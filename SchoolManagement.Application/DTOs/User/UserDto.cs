@@ -39,8 +39,7 @@ namespace SchoolManagement.Application.DTOs.User
 
         //get trainee info
         public int? TraineeId { get; set; }
-
-        //public string TraineeName { get; set; }
+        public string TraineeName { get; set; }
 
 
 

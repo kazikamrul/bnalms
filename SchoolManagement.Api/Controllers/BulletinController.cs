@@ -2,7 +2,6 @@
 using SchoolManagement.Application.DTOs.Bulletin;
 using SchoolManagement.Application.Features.Bulletins.Requests.Commands;
 using SchoolManagement.Application.Features.Bulletins.Requests.Queries;
-using SchoolManagement.Shared.Models;
 
 namespace SchoolManagement.Api.Controllers;
 
@@ -19,17 +18,18 @@ public class BulletinController : ControllerBase
     }
 
     [HttpGet]
-    [Route("get-Bulletins")]
-    public async Task<ActionResult<List<BulletinDto>>> Get([FromQuery] QueryParams queryParams)
+    [Route("get-bulletins")]
+    public async Task<ActionResult<List<BulletinDto>>> Get([FromQuery] QueryParams queryParams,int baseSchoolNameId)
     {
-        var Bulletins = await _mediator.Send(new GetBulletinListRequest { QueryParams = queryParams });
-        return Ok(Bulletins);
+        var Bulletines = await _mediator.Send(new GetBulletinListRequest { 
+            QueryParams = queryParams,
+            BaseSchoolNameId = baseSchoolNameId
+        });
+        return Ok(Bulletines);
     }
 
-    
-
     [HttpGet]
-    [Route("get-BulletinDetail/{id}")]
+    [Route("get-bulletinDetail/{id}")]
     public async Task<ActionResult<BulletinDto>> Get(int id)
     {
         var Bulletin = await _mediator.Send(new GetBulletinDetailRequest { BulletinId = id });
@@ -39,7 +39,7 @@ public class BulletinController : ControllerBase
     [HttpPost]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
-    [Route("save-Bulletin")]
+    [Route("save-bulletin")]
     public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateBulletinDto Bulletin)
     {
         var command = new CreateBulletinCommand { BulletinDto = Bulletin };
@@ -51,7 +51,7 @@ public class BulletinController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("update-Bulletin/{id}")]
+    [Route("update-bulletin/{id}")]
     public async Task<ActionResult> Put([FromBody] BulletinDto Bulletin)
     {
         var command = new UpdateBulletinCommand { BulletinDto = Bulletin };
@@ -63,7 +63,7 @@ public class BulletinController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("delete-Bulletin/{id}")]
+    [Route("delete-bulletin/{id}")]
     public async Task<ActionResult> Delete(int id)
     {
         var command = new DeleteBulletinCommand { BulletinId = id };
@@ -71,34 +71,32 @@ public class BulletinController : ControllerBase
         return NoContent();
     }
 
-    // relational data get 
-
     [HttpGet]
-    [Route("get-selectedBulletins")]
-    public async Task<ActionResult<List<SelectedModel>>> getselectedBulletin()
-    {
-        var selectedBulletin = await _mediator.Send(new GetSelectedBulletinRequest { });
-        return Ok(selectedBulletin);
-    }
-    [HttpGet]
-    [Route("get-spBulletinList")]
-    public async Task<ActionResult> GetActiveBulletinList(int memberInfoId)
+    [Route("get-activeBulletinList")]
+    public async Task<ActionResult> GetActiveBulletinList(int baseSchoolNameId)
     {
         var bulletinList = await _mediator.Send(new GetBulletinListBySpRequest
-        {
-            MemberInfoId = memberInfoId
-        });
-        return Ok(bulletinList);
-    }
-    [HttpGet]
-    [Route("get-spBulletinListByLibrary")]
-    public async Task<ActionResult> GetActiveBulletinListByLibrary(int baseSchoolNameId)
-    {
-        var bulletinList = await _mediator.Send(new GetBulletinListByLibrarySpRequest
         {
             BaseSchoolNameId = baseSchoolNameId
         });
         return Ok(bulletinList);
     }
+
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("change-bulletinStatus")]
+    public async Task<ActionResult> ActiveCoursePlan(int bulletinId, int status)
+    {
+        var command = new ChangeBulletinStatusCommand { 
+            BulletinId = bulletinId,
+            Status = status
+        };
+        await _mediator.Send(command);
+        return NoContent();
+    }
+
 }
 

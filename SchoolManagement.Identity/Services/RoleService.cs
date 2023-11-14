@@ -41,7 +41,7 @@ namespace SchoolManagement.Identity.Services
         public async Task<List<SelectedModel>> GetSelectedRoleList()
         {
             ICollection<IdentityRole> roles =await _roleManager.Roles.ToListAsync();
-            string[] role = {CustomRoleTypes.Member};
+            string[] role = {CustomRoleTypes.Student,CustomRoleTypes.Instructor};
             List<SelectedModel> selectModels = roles.Where(x => !role.Contains(x.Name)).Select(x => new SelectedModel
             {
                 Text = x.Name,
@@ -53,7 +53,7 @@ namespace SchoolManagement.Identity.Services
         public async Task<List<SelectedModel>> GetSelectedAllRoleList()
         {
             ICollection<IdentityRole> roles = await _roleManager.Roles.ToListAsync();
-            //string[] role = { CustomRoleTypes.Student, CustomRoleTypes.Instructor };
+            string[] role = { CustomRoleTypes.Student, CustomRoleTypes.Instructor };
             List<SelectedModel> selectModels = roles.Select(x => new SelectedModel
             {
                 Text = x.Name,
@@ -62,7 +62,17 @@ namespace SchoolManagement.Identity.Services
             return selectModels;
         }
 
-        
+        public async Task<List<SelectedModel>> GetSelectedRoleForTraineeList()
+        {
+            ICollection<IdentityRole> roles =await _roleManager.Roles.ToListAsync();
+            string[] role = {CustomRoleTypes.Student,CustomRoleTypes.Instructor};
+            List<SelectedModel> selectModels = roles.Where(x => role.Contains(x.Name)).Select(x => new SelectedModel
+            {
+                Text = x.Name,
+                Value = x.Name
+            }).ToList();
+            return selectModels;
+        }
 
         public async Task<BaseCommandResponse> Save(string roleId, CreateRoleDto model)
         {

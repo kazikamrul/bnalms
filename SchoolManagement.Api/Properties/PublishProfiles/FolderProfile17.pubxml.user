@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <History>True|2023-09-09T09:47:19.4644661Z;False|2023-09-09T15:47:00.8019645+06:00;</History>
+    <_PublishTargetUrl>D:\TMS_10.04.23\PublishFile</_PublishTargetUrl>
+    <History>True|2023-05-10T11:35:12.4462780Z;</History>
     <LastFailureDetails />
-    <_PublishTargetUrl>D:\BNALMS_Upgradation_27.07.2023\PublishFile</_PublishTargetUrl>
   </PropertyGroup>
 </Project>

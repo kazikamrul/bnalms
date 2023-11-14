@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <History>True|2023-01-29T07:58:24.2092505Z;True|2023-01-29T13:49:35.1834734+06:00;False|2023-01-29T13:49:19.3300579+06:00;True|2023-01-29T10:33:54.2799808+06:00;False|2023-01-29T10:33:34.6754817+06:00;</History>
+    <_PublishTargetUrl>D:\TMS_25.03.23\PublishFile</_PublishTargetUrl>
+    <History>True|2023-03-25T09:03:09.8885188Z;</History>
     <LastFailureDetails />
-    <_PublishTargetUrl>C:\publish\library</_PublishTargetUrl>
   </PropertyGroup>
 </Project>

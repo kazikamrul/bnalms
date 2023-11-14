@@ -74,7 +74,7 @@ public class RoleController : ControllerBase
     //    await _mediator.Send(command);
     //    return NoContent();
     //}
-                 
+
     [HttpGet]
     [Route("get-selectedroles")]
     public async Task<ActionResult<List<SelectedModel>>> getselectedrole()
@@ -94,14 +94,14 @@ public class RoleController : ControllerBase
         return Ok(UserByRole);
     }
 
-    //[HttpGet]
-    //[Route("get-selectedrolesForTrainee")]
-    //public async Task<ActionResult<List<SelectedModel>>> getSelectedRoleForTraineeList()
-    //{
-    //    // var UserByRole = await _mediator.Send(new GetSelectedRoleRequest { });
-    //    var UserByRole = await _roleService.GetSelectedRoleForTraineeList();
-    //    return Ok(UserByRole);
-    //}
+    [HttpGet]
+    [Route("get-selectedrolesForTrainee")]
+    public async Task<ActionResult<List<SelectedModel>>> getSelectedRoleForTraineeList()
+    {
+        // var UserByRole = await _mediator.Send(new GetSelectedRoleRequest { });
+        var UserByRole = await _roleService.GetSelectedRoleForTraineeList();
+        return Ok(UserByRole);
+    }
 
 }
 

@@ -80,5 +80,13 @@ public class CourseTypeController : ControllerBase
         var selectedCourseType = await _mediator.Send(new GetSelectedCourseTypeRequest { });
         return Ok(selectedCourseType);
     }
+
+    [HttpGet]
+    [Route("get-selectedCourseTypeForMist")]
+    public async Task<ActionResult<List<SelectedModel>>> getselectedcoursetypeForMist()
+    {
+        var selectedCourseType = await _mediator.Send(new GetSelectedCourseTypeForMistRequest { });
+        return Ok(selectedCourseType);
+    }
 }
 

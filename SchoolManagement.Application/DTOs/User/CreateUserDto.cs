@@ -51,7 +51,7 @@ namespace SchoolManagement.Application.DTOs.User
         public string? SecondLevel { get; set; }
         public string? ThirdLevel { get; set; }
         public string? FourthLevel { get; set; }
-        public bool IsActive { get; set; }
+
         public string RoleName { get; set; }
         public string? TraineeId { get; set; }
 

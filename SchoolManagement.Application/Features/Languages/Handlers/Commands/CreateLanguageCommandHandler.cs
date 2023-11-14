@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using SchoolManagement.Application.Contracts.Persistence;
-using SchoolManagement.Application.DTOs.Language.Validators;
+using SchoolManagement.Application.DTOs.Languages.Validators;
 using SchoolManagement.Application.Features.Languages.Requests.Commands;
 using SchoolManagement.Application.Responses;
 using SchoolManagement.Domain;
@@ -15,17 +15,16 @@ namespace SchoolManagement.Application.Features.Languages.Handlers.Commands
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
+         
         public CreateLanguageCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
         public async Task<BaseCommandResponse> Handle(CreateLanguageCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
-            var validator = new CreateLanguageDtoValidator();
+            var validator = new CreateLanguageDtoValidator(); 
             var validationResult = await validator.ValidateAsync(request.LanguageDto);
 
             if (validationResult.IsValid == false)
@@ -36,14 +35,12 @@ namespace SchoolManagement.Application.Features.Languages.Handlers.Commands
             }
             else
             {
-                var Language = _mapper.Map<Language>(request.LanguageDto);
+                var Language = _mapper.Map<Language>(request.LanguageDto); 
 
                 Language = await _unitOfWork.Repository<Language>().Add(Language);
                 await _unitOfWork.Save();
-
-
                 response.Success = true;
-                response.Message = "Creation Successful";
+                response.Message = "Creation Successful"; 
                 response.Id = Language.LanguageId;
             }
 

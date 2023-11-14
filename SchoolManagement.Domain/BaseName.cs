@@ -21,7 +21,10 @@ namespace SchoolManagement.Domain
         public int? MenuPosition { get; set; }
         public bool IsActive { get; set; }
 
-        
+        public virtual AdminAuthority AdminAuthority { get; set; } = null!;
+        public virtual District? District { get; set; }
+        public virtual Division Division { get; set; } = null!;
+        public virtual ForceType? ForceType { get; set; }
         public virtual ICollection<BaseSchoolName> BaseSchoolNames { get; set; }
     }
 }

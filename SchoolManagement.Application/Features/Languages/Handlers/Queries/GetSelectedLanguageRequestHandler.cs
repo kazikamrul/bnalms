@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.Languages.Handlers.Queries
-{
+{ 
     public class GetSelectedLanguageRequestHandler : IRequestHandler<GetSelectedLanguageRequest, List<SelectedModel>>
     {
         private readonly ISchoolManagementRepository<Language> _LanguageRepository;
@@ -22,8 +22,8 @@ namespace SchoolManagement.Application.Features.Languages.Handlers.Queries
 
         public async Task<List<SelectedModel>> Handle(GetSelectedLanguageRequest request, CancellationToken cancellationToken)
         {
-            ICollection<Language> codeValues = await _LanguageRepository.FilterAsync(x => x.IsActive);
-            List<SelectedModel> selectModels = codeValues.Select(x => new SelectedModel
+            ICollection<Language> Languages = await _LanguageRepository.FilterAsync(x => x.IsActive);
+            List<SelectedModel> selectModels = Languages.Select(x => new SelectedModel 
             {
                 Text = x.LanguageName,
                 Value = x.LanguageId

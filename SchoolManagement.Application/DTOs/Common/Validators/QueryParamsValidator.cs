@@ -9,7 +9,7 @@ namespace SchoolManagement.Application.DTOs.Common.Validators
     public class QueryParamsValidator : AbstractValidator<QueryParams>
     {
         
-        public int[] allowedPageSize = { 5, 10, 15, 20, 25, 50, 100, 200, 500, 1000, 100000 };
+        public int[] allowedPageSize = { 5, 10, 15, 20, 25, 50, 100, 200, 500, 1000 };
         public QueryParamsValidator()
         {
             RuleFor(q => q.PageNumber).GreaterThanOrEqualTo(1);

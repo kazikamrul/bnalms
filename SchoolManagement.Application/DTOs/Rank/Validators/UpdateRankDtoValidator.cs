@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using SchoolManagement.Application.DTOs.Rank;
 using System;
 using System.Collections.Generic;
 using System.Text;
- 
+
 namespace SchoolManagement.Application.DTOs.Rank.Validators
 {
     public class UpdateRankDtoValidator : AbstractValidator<RankDto>
@@ -11,8 +12,7 @@ namespace SchoolManagement.Application.DTOs.Rank.Validators
         {
             Include(new IRankDtoValidator());
 
-            RuleFor(b => b.RankId).NotNull().WithMessage("{PropertyName} must be present");
+            RuleFor(p => p.RankId).NotNull().WithMessage("{PropertyName} must be present");
         }
     }
 }
-

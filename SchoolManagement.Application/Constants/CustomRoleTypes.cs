@@ -8,10 +8,9 @@ namespace SchoolManagement.Application.Constants
 {
     public static class CustomRoleTypes
     {
-        public const string Admin = "Admin";
-        public const string Member = "Member";
+        public const string Instructor = "Instructor";
+        public const string Student = "Student";
         public const string SuperAdmin = "Super Admin";
         public const string MasterAdmin = "Master Admin";
-        public const string User = "User";
     }
 }
