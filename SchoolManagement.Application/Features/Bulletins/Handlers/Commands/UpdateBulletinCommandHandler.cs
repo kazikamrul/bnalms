@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using SchoolManagement.Domain;
+using AutoMapper;
 using MediatR;
-using SchoolManagement.Application.DTOs.Bulletin.Validators;
 using SchoolManagement.Application.Exceptions;
 using SchoolManagement.Application.Contracts.Persistence;
-using SchoolManagement.Domain;
+using System.Threading;
+using System.Threading.Tasks;
 using SchoolManagement.Application.Features.Bulletins.Requests.Commands;
+using SchoolManagement.Application.DTOs.Bulletin.Validators;
 
 namespace SchoolManagement.Application.Features.Bulletins.Handlers.Commands
 {
@@ -21,8 +23,8 @@ namespace SchoolManagement.Application.Features.Bulletins.Handlers.Commands
 
         public async Task<Unit> Handle(UpdateBulletinCommand request, CancellationToken cancellationToken)
         {
-            var validator = new UpdateBulletinDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.BulletinDto);
+            var validator = new UpdateBulletinDtoValidator(); 
+             var validationResult = await validator.ValidateAsync(request.BulletinDto);
 
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);

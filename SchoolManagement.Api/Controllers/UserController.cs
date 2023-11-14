@@ -27,13 +27,28 @@ public class UsersController : ControllerBase
         var Users = await _userService.GetUsers(queryParams);
         return Ok(Users);
     }
+
     [HttpGet]
-    [Route("get-teacher-users")]
-    public async Task<ActionResult> GetTeacherUsers([FromQuery] QueryParams queryParams)
+    [Route("get-membership-users")]
+    public async Task<ActionResult> GetMembershipUsers([FromQuery] QueryParams queryParams)
     {
-        var Users = await _userService.GetTeacherUsers(queryParams);
+        var Users = await _userService.GetMembershipUsers(queryParams);
         return Ok(Users);
     }
+    //[HttpGet]
+    //[Route("get-student-users")]
+    //public async Task<ActionResult> GetStudentUsers([FromQuery] QueryParams queryParams)
+    //{
+    //    var Users = await _userService.GetStudentUsers(queryParams);
+    //    return Ok(Users);
+    //}
+    //[HttpGet]
+    //[Route("get-teacher-users")]
+    //public async Task<ActionResult> GetTeacherUsers([FromQuery] QueryParams queryParams)
+    //{
+    //    var Users = await _userService.GetTeacherUsers(queryParams);
+    //    return Ok(Users);
+    //}
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -66,14 +81,6 @@ public class UsersController : ControllerBase
         return Ok(Users);
     }
 
-    [HttpPost]
-    [Route("reset-userPassword")]
-    public async Task<ActionResult> ResetUserPassword(string userId, [FromBody] CreateUserDto User)
-    {
-        var Users = await _userService.ResetPassword(userId,User);
-        return NoContent();
-    }
-    // hoice vaiya
     //Relational data get 
     //[HttpGet]
     // GetEmployeeByUserId
@@ -104,6 +111,14 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
+    [Route("reset-userPassword")]
+    public async Task<ActionResult> ResetUserPassword(string userId, [FromBody] CreateUserDto User)
+    {
+        var Users = await _userService.ResetPassword(userId, User);
+        return NoContent();
+    }
+
+    [HttpPost]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [Route("save-user")]
@@ -111,17 +126,6 @@ public class UsersController : ControllerBase
     {
        
         return Ok(await _userService.Save("",User));
-    }
-
-    [HttpPut]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesDefaultResponseType]
-    [Route("update-user-email-phone")]
-    public async Task<ActionResult> UpdateUserEmailPhone(string userId,[FromBody] UpdateEmailPhoneDto User)
-    {
-        await _userService.UpdateUser(userId, User);
-        return NoContent();
     }
 
     [HttpPut]

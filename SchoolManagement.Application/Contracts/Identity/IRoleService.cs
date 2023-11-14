@@ -13,6 +13,7 @@ namespace SchoolManagement.Application.Contracts.Identity
         Task<BaseCommandResponse> Save(string roleId, CreateRoleDto model);
         Task<List<SelectedModel>> GetSelectedRoleList();
         Task<List<SelectedModel>> GetSelectedAllRoleList();
-        Task<List<SelectedModel>> GetSelectedRoleForTraineeList();
+
+        //Task<List<SelectedModel>> GetSelectedRoleForTraineeList();
     }
 }

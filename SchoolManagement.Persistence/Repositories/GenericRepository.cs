@@ -191,10 +191,5 @@ namespace SchoolManagement.Persistence.Repositories
         {
           await  dbSet.AddRangeAsync(entities);
         }
-        public async Task RemoveRangeAsync(IEnumerable<T> entities)
-        {
-             dbSet.RemoveRange(entities);
-        }
-        
     }
 }

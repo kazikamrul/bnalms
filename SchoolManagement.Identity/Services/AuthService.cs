@@ -45,6 +45,11 @@ namespace SchoolManagement.Identity.Services
                 throw new NotFoundException("User", request.Email);
             }
 
+            if (!user.IsActive)
+            {
+                throw new BadRequestException($"User( '{request.Email}' ) Not Active");
+            }
+
             var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
 
             if (!result.Succeeded)

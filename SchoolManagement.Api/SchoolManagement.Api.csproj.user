@@ -3,10 +3,6 @@
   <PropertyGroup>
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
-    <NameOfLastUsedPublishProfile>D:\BN_TMS-26.09.2023\BN_TMS\SchoolManagement.Api\Properties\PublishProfiles\FolderProfile30.pubxml</NameOfLastUsedPublishProfile>
-    <ActiveDebugProfile>SchoolManagement.Api</ActiveDebugProfile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+    <NameOfLastUsedPublishProfile>D:\BNALMS_Upgradation_27.07.2023\BNALMS_Upgradation\SchoolManagement.Api\Properties\PublishProfiles\FolderProfile17.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>D:\TMS_16.03.23\PublishFile</_PublishTargetUrl>
-    <History>True|2023-03-25T04:51:09.4399732Z;</History>
+    <History>True|2023-01-16T05:21:38.4391754Z;False|2023-01-16T11:21:20.1859456+06:00;True|2023-01-14T10:32:09.7156983+06:00;False|2023-01-14T10:29:37.3230746+06:00;True|2023-01-11T17:38:21.4911980+06:00;False|2023-01-11T17:38:01.8378995+06:00;True|2023-01-10T17:43:54.7331312+06:00;False|2023-01-10T17:43:33.0662542+06:00;True|2023-01-08T17:10:59.7822753+06:00;True|2023-01-08T17:10:37.7232382+06:00;False|2023-01-08T17:10:09.4432524+06:00;</History>
     <LastFailureDetails />
+    <_PublishTargetUrl>F:\WorkPlace\working\publish</_PublishTargetUrl>
   </PropertyGroup>
 </Project>

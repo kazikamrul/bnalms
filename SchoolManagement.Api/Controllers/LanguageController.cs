@@ -1,5 +1,5 @@
 ﻿using SchoolManagement.Application;
-using SchoolManagement.Application.DTOs.Languages;
+using SchoolManagement.Application.DTOs.Language;
 using SchoolManagement.Application.Features.Languages.Requests.Commands;
 using SchoolManagement.Application.Features.Languages.Requests.Queries;
 using SchoolManagement.Shared.Models;
@@ -19,25 +19,27 @@ public class LanguageController : ControllerBase
     }
 
     [HttpGet]
-    [Route("get-languages")]
+    [Route("get-Languages")]
     public async Task<ActionResult<List<LanguageDto>>> Get([FromQuery] QueryParams queryParams)
     {
-        var Languagees = await _mediator.Send(new GetLanguageListRequest { QueryParams = queryParams });
-        return Ok(Languagees);
+        var Languages = await _mediator.Send(new GetLanguageListRequest { QueryParams = queryParams });
+        return Ok(Languages);
     }
 
+    
+
     [HttpGet]
-    [Route("get-languageDetail/{id}")]
+    [Route("get-LanguageDetail/{id}")]
     public async Task<ActionResult<LanguageDto>> Get(int id)
     {
-        var Language = await _mediator.Send(new GetLanguageDetailRequest { Id = id });
+        var Language = await _mediator.Send(new GetLanguageDetailRequest { LanguageId = id });
         return Ok(Language);
     }
 
     [HttpPost]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
-    [Route("save-language")]
+    [Route("save-Language")]
     public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateLanguageDto Language)
     {
         var command = new CreateLanguageCommand { LanguageDto = Language };
@@ -49,7 +51,7 @@ public class LanguageController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("update-language/{id}")]
+    [Route("update-Language/{id}")]
     public async Task<ActionResult> Put([FromBody] LanguageDto Language)
     {
         var command = new UpdateLanguageCommand { LanguageDto = Language };
@@ -61,24 +63,22 @@ public class LanguageController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("delete-language/{id}")]
-
+    [Route("delete-Language/{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var command = new DeleteLanguageCommand { Id = id };
+        var command = new DeleteLanguageCommand { LanguageId = id };
         await _mediator.Send(command);
         return NoContent();
     }
 
-
+    // relational data get 
 
     [HttpGet]
-    [Route("get-selectedLanguage")]
-    public async Task<ActionResult<List<SelectedModel>>> GetSelectedLanguage()
+    [Route("get-selectedLanguages")]
+    public async Task<ActionResult<List<SelectedModel>>> getselectedLanguage()
     {
-        var language = await _mediator.Send(new GetSelectedLanguageRequest { });
-        return Ok(language);
+        var selectedLanguage = await _mediator.Send(new GetSelectedLanguageRequest { });
+        return Ok(selectedLanguage);
     }
-
 }
 

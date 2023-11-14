@@ -40,6 +40,7 @@ namespace SchoolManagement.Application.Contracts.Persistence
         Task<T> FindOneAsync(Expression<Func<T, bool>> predicate, params string[] include);
         Task<ICollection<T>> FilterAsync(Expression<Func<T, bool>> predicate);
         Task AddRangeAsync(IEnumerable<T> entities);
-        Task RemoveRangeAsync(IEnumerable<T> entities);
+
+
     }
 }

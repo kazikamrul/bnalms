@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Converters;
+using Microsoft.Extensions.FileProviders;
 using SchoolManagement.Api.Extensions;
 using SchoolManagement.Api.Middleware;
 using SchoolManagement.Application;
 using SchoolManagement.Identity;
 using SchoolManagement.Persistence;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +19,7 @@ builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 builder.Services.ConfigureIdentityServices(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
-//builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.AddControllers().AddNewtonsoftJson(jsonOptions =>
- {
-     jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
- });
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddCors(o =>
 {
@@ -54,7 +51,7 @@ app.UseStaticFiles();
 //             ),
 //    RequestPath = "/content"
 //});
-app.MapFallbackToController("Index", "Fallback");
+//app.MapFallbackToController("Index", "Fallback");
 app.UseAuthorization();
 
 app.UseCors("CorsPolicy");

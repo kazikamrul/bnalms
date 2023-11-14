@@ -7,41 +7,29 @@ namespace SchoolManagement.Api.Models
     {
         public BaseSchoolName()
         {
-            Attendances = new HashSet<Attendance>();
-            BnaExamAttendances = new HashSet<BnaExamAttendance>();
-            BnaExamInstructorAssigns = new HashSet<BnaExamInstructorAssign>();
-            BnaExamMarks = new HashSet<BnaExamMark>();
-            BnaSubjectNames = new HashSet<BnaSubjectName>();
+            AuthorInformations = new HashSet<AuthorInformation>();
+            BookBindingInfos = new HashSet<BookBindingInfo>();
+            BookInformations = new HashSet<BookInformation>();
+            BookIssueAndSubmissions = new HashSet<BookIssueAndSubmission>();
+            BookTitleInfos = new HashSet<BookTitleInfo>();
             Bulletins = new HashSet<Bulletin>();
-            ClassPeriods = new HashSet<ClassPeriod>();
-            ClassRoutines = new HashSet<ClassRoutine>();
-            CourseDurations = new HashSet<CourseDuration>();
-            CourseGradingEntries = new HashSet<CourseGradingEntry>();
-            CourseInstructors = new HashSet<CourseInstructor>();
-            CourseModules = new HashSet<CourseModule>();
-            CoursePlanCreates = new HashSet<CoursePlanCreate>();
-            CourseSections = new HashSet<CourseSection>();
-            CourseTasks = new HashSet<CourseTask>();
-            CourseWeeks = new HashSet<CourseWeek>();
-            Events = new HashSet<Event>();
-            GuestSpeakerQuationGroups = new HashSet<GuestSpeakerQuationGroup>();
-            IndividualBulletins = new HashSet<IndividualBulletin>();
-            IndividualNotices = new HashSet<IndividualNotice>();
-            NewEntryEvaluations = new HashSet<NewEntryEvaluation>();
-            Notices = new HashSet<Notice>();
-            NotificationReceivedBaseSchoolNames = new HashSet<Notification>();
-            NotificationSendBaseSchoolNames = new HashSet<Notification>();
-            ReadingMaterials = new HashSet<ReadingMaterial>();
-            RoutineNotes = new HashSet<RoutineNote>();
-            RoutineSoftCopyUploads = new HashSet<RoutineSoftCopyUpload>();
-            SubjectMarks = new HashSet<SubjectMark>();
-            TdecQuationGroups = new HashSet<TdecQuationGroup>();
-            TraineeAssessmentCreates = new HashSet<TraineeAssessmentCreate>();
-            TraineeAssessmentMarks = new HashSet<TraineeAssessmentMark>();
-            TraineeAssignmentSubmits = new HashSet<TraineeAssignmentSubmit>();
-            TraineeBioDataOthers = new HashSet<TraineeBioDataOther>();
-            TrainingObjectives = new HashSet<TrainingObjective>();
-            TrainingSyllabi = new HashSet<TrainingSyllabus>();
+            DamageInformationByLibraries = new HashSet<DamageInformationByLibrary>();
+            EventInfos = new HashSet<EventInfo>();
+            FeeInformations = new HashSet<FeeInformation>();
+            FileInformations = new HashSet<FileInformation>();
+            FineForIssueReturns = new HashSet<FineForIssueReturn>();
+            HelpLines = new HashSet<HelpLine>();
+            InformationFezups = new HashSet<InformationFezup>();
+            Inventories = new HashSet<Inventory>();
+            MemberInfos = new HashSet<MemberInfo>();
+            MemberRegistrations = new HashSet<MemberRegistration>();
+            NoticeInfos = new HashSet<NoticeInfo>();
+            OnlineBookRequests = new HashSet<OnlineBookRequest>();
+            PublishersInformations = new HashSet<PublishersInformation>();
+            ReaderInformations = new HashSet<ReaderInformation>();
+            SoftCopyUploads = new HashSet<SoftCopyUpload>();
+            SourceInformations = new HashSet<SourceInformation>();
+            SupplierInformations = new HashSet<SupplierInformation>();
         }
 
         public int BaseSchoolNameId { get; set; }
@@ -69,42 +57,29 @@ namespace SchoolManagement.Api.Models
         public int? FourthLevel { get; set; }
         public int? FifthLevel { get; set; }
         public string ServerName { get; set; }
-        public string SchoolHistory { get; set; }
 
-        public virtual ICollection<Attendance> Attendances { get; set; }
-        public virtual ICollection<BnaExamAttendance> BnaExamAttendances { get; set; }
-        public virtual ICollection<BnaExamInstructorAssign> BnaExamInstructorAssigns { get; set; }
-        public virtual ICollection<BnaExamMark> BnaExamMarks { get; set; }
-        public virtual ICollection<BnaSubjectName> BnaSubjectNames { get; set; }
+        public virtual ICollection<AuthorInformation> AuthorInformations { get; set; }
+        public virtual ICollection<BookBindingInfo> BookBindingInfos { get; set; }
+        public virtual ICollection<BookInformation> BookInformations { get; set; }
+        public virtual ICollection<BookIssueAndSubmission> BookIssueAndSubmissions { get; set; }
+        public virtual ICollection<BookTitleInfo> BookTitleInfos { get; set; }
         public virtual ICollection<Bulletin> Bulletins { get; set; }
-        public virtual ICollection<ClassPeriod> ClassPeriods { get; set; }
-        public virtual ICollection<ClassRoutine> ClassRoutines { get; set; }
-        public virtual ICollection<CourseDuration> CourseDurations { get; set; }
-        public virtual ICollection<CourseGradingEntry> CourseGradingEntries { get; set; }
-        public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
-        public virtual ICollection<CourseModule> CourseModules { get; set; }
-        public virtual ICollection<CoursePlanCreate> CoursePlanCreates { get; set; }
-        public virtual ICollection<CourseSection> CourseSections { get; set; }
-        public virtual ICollection<CourseTask> CourseTasks { get; set; }
-        public virtual ICollection<CourseWeek> CourseWeeks { get; set; }
-        public virtual ICollection<Event> Events { get; set; }
-        public virtual ICollection<GuestSpeakerQuationGroup> GuestSpeakerQuationGroups { get; set; }
-        public virtual ICollection<IndividualBulletin> IndividualBulletins { get; set; }
-        public virtual ICollection<IndividualNotice> IndividualNotices { get; set; }
-        public virtual ICollection<NewEntryEvaluation> NewEntryEvaluations { get; set; }
-        public virtual ICollection<Notice> Notices { get; set; }
-        public virtual ICollection<Notification> NotificationReceivedBaseSchoolNames { get; set; }
-        public virtual ICollection<Notification> NotificationSendBaseSchoolNames { get; set; }
-        public virtual ICollection<ReadingMaterial> ReadingMaterials { get; set; }
-        public virtual ICollection<RoutineNote> RoutineNotes { get; set; }
-        public virtual ICollection<RoutineSoftCopyUpload> RoutineSoftCopyUploads { get; set; }
-        public virtual ICollection<SubjectMark> SubjectMarks { get; set; }
-        public virtual ICollection<TdecQuationGroup> TdecQuationGroups { get; set; }
-        public virtual ICollection<TraineeAssessmentCreate> TraineeAssessmentCreates { get; set; }
-        public virtual ICollection<TraineeAssessmentMark> TraineeAssessmentMarks { get; set; }
-        public virtual ICollection<TraineeAssignmentSubmit> TraineeAssignmentSubmits { get; set; }
-        public virtual ICollection<TraineeBioDataOther> TraineeBioDataOthers { get; set; }
-        public virtual ICollection<TrainingObjective> TrainingObjectives { get; set; }
-        public virtual ICollection<TrainingSyllabus> TrainingSyllabi { get; set; }
+        public virtual ICollection<DamageInformationByLibrary> DamageInformationByLibraries { get; set; }
+        public virtual ICollection<EventInfo> EventInfos { get; set; }
+        public virtual ICollection<FeeInformation> FeeInformations { get; set; }
+        public virtual ICollection<FileInformation> FileInformations { get; set; }
+        public virtual ICollection<FineForIssueReturn> FineForIssueReturns { get; set; }
+        public virtual ICollection<HelpLine> HelpLines { get; set; }
+        public virtual ICollection<InformationFezup> InformationFezups { get; set; }
+        public virtual ICollection<Inventory> Inventories { get; set; }
+        public virtual ICollection<MemberInfo> MemberInfos { get; set; }
+        public virtual ICollection<MemberRegistration> MemberRegistrations { get; set; }
+        public virtual ICollection<NoticeInfo> NoticeInfos { get; set; }
+        public virtual ICollection<OnlineBookRequest> OnlineBookRequests { get; set; }
+        public virtual ICollection<PublishersInformation> PublishersInformations { get; set; }
+        public virtual ICollection<ReaderInformation> ReaderInformations { get; set; }
+        public virtual ICollection<SoftCopyUpload> SoftCopyUploads { get; set; }
+        public virtual ICollection<SourceInformation> SourceInformations { get; set; }
+        public virtual ICollection<SupplierInformation> SupplierInformations { get; set; }
     }
 }

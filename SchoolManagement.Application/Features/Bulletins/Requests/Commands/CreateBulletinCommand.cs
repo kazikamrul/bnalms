@@ -1,6 +1,9 @@
 ﻿using MediatR;
 using SchoolManagement.Application.DTOs.Bulletin;
 using SchoolManagement.Application.Responses;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SchoolManagement.Application.Features.Bulletins.Requests.Commands
 {
@@ -9,4 +12,3 @@ namespace SchoolManagement.Application.Features.Bulletins.Requests.Commands
         public CreateBulletinDto BulletinDto { get; set; }
     }
 }
- 

@@ -30,8 +30,8 @@ namespace SchoolManagement.Application.Features.Modules.Handlers.Queries
 
         public async Task<List<ModuleFeatureDto>> Handle(GetModuleFeaturesRequests request, CancellationToken cancellationToken)
         {
-              
-            var rId = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Rid)?.Value ;
+
+            var rId = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Rid)?.Value;
             var role = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
 
             ICollection<RoleFeature> roleFeature =await _RoleFeatureRepository.FilterAsync(x =>x.RoleId == rId);

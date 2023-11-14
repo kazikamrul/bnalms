@@ -1,12 +1,15 @@
-﻿using SchoolManagement.Domain.Common;
+﻿using SchoolManagement.Domain;
+using SchoolManagement.Domain.Common;
+using System;
+using System.Collections.Generic;
 
 namespace SchoolManagement.Domain
 {
-    public class DocumentType: BaseDomainEntity 
+    public class DocumentType:BaseDomainEntity
     {
         public DocumentType()
         {
-            ReadingMaterials = new HashSet<ReadingMaterial>();
+            SoftCopyUploads = new HashSet<SoftCopyUpload>();
         }
 
         public int DocumentTypeId { get; set; }
@@ -15,6 +18,6 @@ namespace SchoolManagement.Domain
         public int? MenuPosition { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual ICollection<ReadingMaterial> ReadingMaterials { get; set; }
+        public virtual ICollection<SoftCopyUpload> SoftCopyUploads { get; set; }
     }
 }

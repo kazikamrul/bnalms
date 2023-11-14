@@ -20,10 +20,5 @@ namespace SchoolManagement.Api.Models
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedDate { get; set; }
         public bool IsActive { get; set; }
-
-        public virtual AdminAuthority AdminAuthority { get; set; }
-        public virtual District District { get; set; }
-        public virtual Division Division { get; set; }
-        public virtual ForceType ForceType { get; set; }
     }
 }

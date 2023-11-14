@@ -1,12 +1,12 @@
 ﻿using SchoolManagement.Domain;
 using AutoMapper;
 using MediatR;
-using SchoolManagement.Application.DTOs.Rank.Validators;
 using SchoolManagement.Application.Exceptions;
-using SchoolManagement.Application.Features.Ranks.Requests.Commands;
 using SchoolManagement.Application.Contracts.Persistence;
 using System.Threading;
 using System.Threading.Tasks;
+using SchoolManagement.Application.Features.Ranks.Requests.Commands;
+using SchoolManagement.Application.DTOs.Rank.Validators;
 
 namespace SchoolManagement.Application.Features.Ranks.Handlers.Commands
 {

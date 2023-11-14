@@ -41,6 +41,7 @@ namespace SchoolManagement.Application.Features.Ranks.Handlers.Commands
                 Rank = await _unitOfWork.Repository<Rank>().Add(Rank);
                 await _unitOfWork.Save();
 
+
                 response.Success = true;
                 response.Message = "Creation Successful";
                 response.Id = Rank.RankId;

@@ -27,7 +27,7 @@ namespace SchoolManagement.Identity
                 b => b.MigrationsAssembly(typeof(SchoolManagementIdentityDbContext).Assembly.FullName)));
 
             //int year = DateTime.Now.Year;
-            //DateTime day = new DateTime(year, 1, 1).AddMonths(10);
+            //DateTime day = new DateTime(year, 1, 1).AddMonths(11);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<SchoolManagementIdentityDbContext>().AddDefaultTokenProviders();

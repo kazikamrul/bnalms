@@ -22,7 +22,7 @@ namespace SchoolManagement.Application.Features.BaseSchoolNames.Handlers.Queries
 
         public async Task<List<BaseSchoolNameDto>> Handle(GetBaseSchoolListByBaseNameRequest request, CancellationToken cancellationToken)
         {
-            IQueryable<BaseSchoolName> BaseSchoolNames = _BaseSchoolNameRepository.FilterWithInclude(x => x.BranchLevel == 4 && x.ThirdLevel == (request.ThirdLevel != 0 ? request.ThirdLevel : x.ThirdLevel)).OrderBy(x => x.BaseSchoolNameId);
+            IQueryable<BaseSchoolName> BaseSchoolNames = _BaseSchoolNameRepository.FilterWithInclude(x => x.BranchLevel == 4 && x.ThirdLevel == request.ThirdLevel).OrderBy(x => x.BaseSchoolNameId);
             //var BaseSchoolNames = _BaseSchoolNameRepository.Where(x => x.BaseSchoolNameId == request.BaseSchoolNameId && x.CourseNameId == request.CourseNameId && x.CourseModuleId == request.CourseModuleId && x.Status == request.Status).OrderByDescending(x => x.BaseSchoolNameId);
 
             var BaseSchoolNameDtos = _mapper.Map<List<BaseSchoolNameDto>>(BaseSchoolNames);

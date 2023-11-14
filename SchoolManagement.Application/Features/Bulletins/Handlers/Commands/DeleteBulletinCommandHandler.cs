@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
-using SchoolManagement.Application.Exceptions;
-using SchoolManagement.Application.Contracts.Persistence;
-using SchoolManagement.Domain;
 using MediatR;
+using SchoolManagement.Application.Contracts.Persistence;
+using SchoolManagement.Application.Exceptions;
 using SchoolManagement.Application.Features.Bulletins.Requests.Commands;
+using SchoolManagement.Domain;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Features.Bulletins.Handlers.Commands
 {
@@ -17,7 +22,7 @@ namespace SchoolManagement.Application.Features.Bulletins.Handlers.Commands
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-         
+
         public async Task<Unit> Handle(DeleteBulletinCommand request, CancellationToken cancellationToken)
         {
             var Bulletin = await _unitOfWork.Repository<Bulletin>().Get(request.BulletinId);

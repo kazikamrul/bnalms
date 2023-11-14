@@ -6,14 +6,15 @@ namespace SchoolManagement.Domain
     {
         public Language()
         {
-            TraineeLanguages = new HashSet<TraineeLanguage>();
+            BookInformations = new HashSet<BookInformation>();
+
         }
 
         public int LanguageId { get; set; }
-        public string LanguageName { get; set; } = null!;
+        public string? LanguageName { get; set; }
         public int? MenuPosition { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual ICollection<TraineeLanguage> TraineeLanguages { get; set; }
+        public virtual ICollection<BookInformation> BookInformations { get; set; }
     }
-} 
+}

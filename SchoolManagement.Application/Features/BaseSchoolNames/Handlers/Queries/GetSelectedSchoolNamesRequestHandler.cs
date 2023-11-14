@@ -25,7 +25,7 @@ namespace SchoolManagement.Application.Features.BaseSchoolNames.Handlers.Queries
             ICollection<BaseSchoolName> BaseSchoolNames = await _SchoolNameRepository.FilterAsync(x => x.BranchLevel == 4 && x.ThirdLevel == request.ThirdLevel);
             List<SelectedModel> selectModels = BaseSchoolNames.Select(x => new SelectedModel 
             {
-                Text = x.SchoolName,
+                Text = x.ShortName,
                 Value = x.BaseSchoolNameId
             }).ToList();
             return selectModels;

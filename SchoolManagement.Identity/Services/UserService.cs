@@ -29,15 +29,15 @@ namespace SchoolManagement.Identity.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signinManager;
         private readonly ISchoolManagementRepository<BaseSchoolName> _BaseSchoolNameRepository;
-        private readonly ISchoolManagementRepository<TraineeBioDataGeneralInfo> _BiodataRepository;
+        private readonly ISchoolManagementRepository<MemberInfo> _MemberInfoRepository;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signinManager, ISchoolManagementRepository<BaseSchoolName> BaseSchoolNameRepository, ISchoolManagementRepository<TraineeBioDataGeneralInfo> BiodataRepository, IHttpContextAccessor httpContextAccessor)
+        public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signinManager, ISchoolManagementRepository<BaseSchoolName> BaseSchoolNameRepository, ISchoolManagementRepository<MemberInfo> MemberInfoRepository,  IHttpContextAccessor httpContextAccessor)
         {
             _signinManager = signinManager;
             _userManager = userManager;
             _BaseSchoolNameRepository = BaseSchoolNameRepository;
-            _BiodataRepository = BiodataRepository;
+            _MemberInfoRepository = MemberInfoRepository;
             this._httpContextAccessor = httpContextAccessor;
         }
 
@@ -55,37 +55,11 @@ namespace SchoolManagement.Identity.Services
         public async Task<BaseCommandResponse> UpdateUserPassword(string userId,PasswordChangeDto userDto)
         {
             var response = new BaseCommandResponse();
-          //  await _userManager.UpdateAsync()
+
             var user = await _userManager.FindByIdAsync(userId);
             await _userManager.ChangePasswordAsync(user, userDto.CurrentPassword, userDto.NewPassword);
             await _signinManager.RefreshSignInAsync(user);
 
-            return response;
-        }
-
-        public async Task<BaseCommandResponse> ResetPassword(string userId, CreateUserDto userDto)
-        {
-            var response = new BaseCommandResponse();
-
-            var user = await _userManager.FindByIdAsync(userId);
-          
-           
-            if (user == null)
-                throw new BadRequestException("Invalide Request !!");
-            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            string newPassword = "Admin@123";
-            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
-           
-            if (!resetPassResult.Succeeded)
-            {
-                throw new BadRequestException(resetPassResult.Errors.ToString());
-               
-            }
-            //await _userManager.ChangePasswordAsync(user, user.p, userDto.NewPassword);
-            //var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            ////await _userManager.ResetPasswordAsync(user, resetToken, userDto.Password);
-            //await _signinManager.RefreshSignInAsync(user);
-            // debug doren
             return response;
         }
         //public async Task<Employee> UpdateUserPassword(string userId, PasswordChangeDto userDto)
@@ -147,7 +121,8 @@ namespace SchoolManagement.Identity.Services
                     PhoneNumber = user.PhoneNumber,
                     LastName = user.LastName,
                     UserName = user.UserName,
-                    RoleName = user.RoleName
+                    RoleName = user.RoleName,
+                    IsActive = user.IsActive
             };
 
             if (user.BranchId != null && !String.IsNullOrEmpty(user.BranchId))
@@ -162,10 +137,10 @@ namespace SchoolManagement.Identity.Services
 
             if (user.PNo != null && !String.IsNullOrEmpty(user.PNo))
             {
-                TraineeBioDataGeneralInfo biodata = await _BiodataRepository.Where(x => x.TraineeId == Convert.ToInt32(user.PNo)).FirstOrDefaultAsync();
+                MemberInfo biodata = await _MemberInfoRepository.Where(x => x.MemberInfoId == Convert.ToInt32(user.PNo)).FirstOrDefaultAsync();
 
-                userDto.TraineeId = biodata.TraineeId;
-                userDto.TraineeName = biodata.Pno + "_" + biodata.Name;
+                userDto.TraineeId = biodata.MemberInfoId;
+                //userDto.TraineeName = biodata.Pno + "_" + biodata.Name;
             }
 
 
@@ -188,6 +163,32 @@ namespace SchoolManagement.Identity.Services
 
 
         //}
+
+        public async Task<BaseCommandResponse> ResetPassword(string userId, CreateUserDto userDto)
+        {
+            var response = new BaseCommandResponse();
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+
+            if (user == null)
+                throw new BadRequestException("Invalide Request !!");
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string newPassword = "Admin@123";
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+            if (!resetPassResult.Succeeded)
+            {
+                throw new BadRequestException(resetPassResult.Errors.ToString());
+
+            }
+            //await _userManager.ChangePasswordAsync(user, user.p, userDto.NewPassword);
+            //var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            ////await _userManager.ResetPasswordAsync(user, resetToken, userDto.Password);
+            //await _signinManager.RefreshSignInAsync(user);
+            // debug doren
+            return response;
+        }
 
         public async Task<BaseCommandResponse> DeleteUser(string userId)
         {
@@ -236,9 +237,9 @@ namespace SchoolManagement.Identity.Services
                 throw new FluentValidation.ValidationException(validationResult.ToString());
 
             IQueryable<ApplicationUser> userQuery = _userManager.Users.AsQueryable();
-            string[] searchingRoles = { CustomRoleTypes.Student, CustomRoleTypes.Instructor };
-            var userQueryRoleFilter = userQuery.Where(x => !searchingRoles.Contains(x.RoleName));
-            userQuery = userQueryRoleFilter.Where(x => (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
+            string[] searchingRoles = { CustomRoleTypes.Member, CustomRoleTypes.User };
+         
+            userQuery = userQuery.Where(x => !searchingRoles.Contains(x.RoleName));
             var totalCount = userQuery.Count();
             userQuery = userQuery.OrderByDescending(x => x.UserName).Skip((queryParams.PageNumber - 1) * queryParams.PageSize).Take(queryParams.PageSize);
 
@@ -249,8 +250,7 @@ namespace SchoolManagement.Identity.Services
                 FirstName = q.FirstName,
                 LastName = q.LastName,
                 UserName = q.UserName,
-                PhoneNumber =q.PhoneNumber,
-                RoleName = q.RoleName
+                PhoneNumber =q.PhoneNumber
             }).ToList();
 
             var result = new PagedResult<UserDto>(UsersDtos, totalCount, queryParams.PageNumber, queryParams.PageSize);
@@ -259,39 +259,19 @@ namespace SchoolManagement.Identity.Services
 
         }
 
-        public async Task<BaseCommandResponse> UpdateUser(string userId, UpdateEmailPhoneDto userDto)
-        {
-            var response = new BaseCommandResponse();
-      
-            var User = new ApplicationUser();
-            if (!string.IsNullOrWhiteSpace(userId))
-            {
-                User = _userManager.Users.FirstOrDefault(x => x.Id == userId);
-            }
-
-            User.Email = userDto.Email;
-            User.PhoneNumber = userDto.PhoneNumber;
-
-            if (!string.IsNullOrWhiteSpace(userId))
-            {
-                await _userManager.UpdateAsync(User);
-            }
-            return response;
-        }
-
         public async Task<BaseCommandResponse> Save(string userId,CreateUserDto userDto)
         {
             var response = new BaseCommandResponse();
 
         
                 var User = new ApplicationUser();
-                bool isNotSameRole = false;
+                bool isSameRole = false;
                 if (!string.IsNullOrWhiteSpace(userId))
                 {
                     User = _userManager.Users.FirstOrDefault(x => x.Id == userId);
-                isNotSameRole = User.RoleName != userDto.RoleName;
+                    isSameRole = User.RoleName != userDto.RoleName;
                 }
-                
+
                 User.Email = userDto.Email;
                 User.FirstName = userDto.FirstName;
                 User.PhoneNumber = userDto.PhoneNumber;
@@ -304,20 +284,15 @@ namespace SchoolManagement.Identity.Services
                 User.CreatedDate = DateTime.Now;
                 User.InActiveBy = _httpContextAccessor.HttpContext.User.FindFirst(CustomClaimTypes.Uid)?.Value;
                 User.InActiveDate = DateTime.Now;
-                User.IsActive = true;
+                User.IsActive = userDto.IsActive;
                 User.EmailConfirmed = true;
 
                 if (!string.IsNullOrWhiteSpace(userId))
                 {
                     await _userManager.UpdateAsync(User);
-                if (isNotSameRole)
+                if (isSameRole)
                 {
-                    IList<string> userRoles =await _userManager.GetRolesAsync(User);
-                    if (userRoles.Any())
-                    {
-                      await _userManager.RemoveFromRolesAsync(User, userRoles);
-                    }
-                  //  await _userManager.RemoveFromRoleAsync(User, userDto.RoleName);
+                    await _userManager.RemoveFromRoleAsync(User, userDto.RoleName);
                     await _userManager.AddToRoleAsync(User, userDto.RoleName);
                 }
                     response.Success = true;
@@ -360,8 +335,7 @@ namespace SchoolManagement.Identity.Services
             return response;
         }
 
-
-        public async Task<PagedResult<UserDto>> GetTeacherUsers(QueryParams queryParams)
+        public async Task<PagedResult<UserDto>> GetMembershipUsers(QueryParams queryParams)
         {
             var validator = new QueryParamsValidator();
             var validationResult = await validator.ValidateAsync(queryParams);
@@ -371,10 +345,8 @@ namespace SchoolManagement.Identity.Services
 
             IQueryable<ApplicationUser> userQuery = _userManager.Users.AsQueryable();
 
-            string[] searchingRoles = { CustomRoleTypes.Instructor, CustomRoleTypes.Student };
-            var userQueryRoleFilter = userQuery.Where(x => searchingRoles.Contains(x.RoleName));
-            userQuery = userQueryRoleFilter.Where(x => searchingRoles.Contains(x.RoleName) && (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
-            //userQuery = userQuery.Where(x => (x.UserName.Contains(queryParams.SearchText)) || String.IsNullOrEmpty(queryParams.SearchText));
+            string[] searchingRoles = { CustomRoleTypes.Member };
+            userQuery = userQuery.Where(x => searchingRoles.Contains(x.RoleName));
             var totalCount = userQuery.Count();
             userQuery = userQuery.OrderByDescending(x => x.UserName).Skip((queryParams.PageNumber - 1) * queryParams.PageSize).Take(queryParams.PageSize);
 
@@ -386,13 +358,17 @@ namespace SchoolManagement.Identity.Services
                 LastName = q.LastName,
                 UserName = q.UserName,
                 PhoneNumber = q.PhoneNumber,
-                RoleName = q.RoleName
+                RoleName = q.RoleName,
+                TraineeId = Convert.ToInt32(q.PNo),
+                IsActive = q.IsActive
             }).ToList();
 
             var result = new PagedResult<UserDto>(UsersDtos, totalCount, queryParams.PageNumber, queryParams.PageSize);
 
             return result;
         }
+
+        
 
         //public async Task<List<Employee>> IUserService.GetEmployeeByUserId(string userId)
         //{

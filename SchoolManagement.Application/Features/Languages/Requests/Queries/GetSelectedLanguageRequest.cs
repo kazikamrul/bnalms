@@ -8,4 +8,3 @@ namespace SchoolManagement.Application.Features.Languages.Requests.Queries
     {
     }
 }
- 

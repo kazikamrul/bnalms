@@ -37,7 +37,7 @@ namespace SchoolManagement.Application.Features.Branchs.Handler.Queries
             if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult.ToString());
 
-            IQueryable<Branch> branches = _branchRepository.FilterWithInclude(x => x.BranchId != 17 && (x.BranchName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)));
+            IQueryable<Branch> branches = _branchRepository.FilterWithInclude(x => (x.BranchName.Contains(request.QueryParams.SearchText) || String.IsNullOrEmpty(request.QueryParams.SearchText)));
             var totalCount = branches.Count();
             branches = branches.OrderByDescending(x => x.BranchId).Skip((request.QueryParams.PageNumber - 1) * request.QueryParams.PageSize).Take(request.QueryParams.PageSize);
 

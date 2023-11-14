@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using SchoolManagement.Domain;
-using SchoolManagement.Application.DTOs.ReadingMaterial;
+using SchoolManagement.Application.DTOs.VideoFile;
 using Microsoft.Extensions.Configuration;
 
 namespace SchoolManagement.Application.Helpers
 {
-    public class FileUrlResolver : IValueResolver<ReadingMaterial, ReadingMaterialDto, string>
+    public class FileUrlResolver : IValueResolver<VideoFile, VideoFileDto, string>
     {
         //private readonly IConfiguration _config;
         //public FileUrlResolver(IConfiguration config)
@@ -19,7 +19,7 @@ namespace SchoolManagement.Application.Helpers
             _config = config;
         }
 
-        public string Resolve(ReadingMaterial source, ReadingMaterialDto destination, string destMember, ResolutionContext context)
+        public string Resolve(VideoFile source, VideoFileDto destination, string destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.DocumentLink))
             {

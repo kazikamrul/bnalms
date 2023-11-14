@@ -7,7 +7,7 @@ namespace SchoolManagement.Api.Models
     {
         public Language()
         {
-            TraineeLanguages = new HashSet<TraineeLanguage>();
+            BookInformations = new HashSet<BookInformation>();
         }
 
         public int LanguageId { get; set; }
@@ -19,6 +19,6 @@ namespace SchoolManagement.Api.Models
         public DateTime? LastModifiedDate { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual ICollection<TraineeLanguage> TraineeLanguages { get; set; }
+        public virtual ICollection<BookInformation> BookInformations { get; set; }
     }
 }
